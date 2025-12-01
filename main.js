@@ -1,10 +1,10 @@
 // import { circle } from './circle.js'
 
 let p = new player(300,300,50,lime_green,-1,-1,1,1,1);
-
+let e = new enemy(300,200,20,orange_color,-1,-1,1,1,1);
 //let c1 = new circle(300,300,50,lime_green,-1,-1,1,1);
-let c2 = new circle(200,100,30,orange_color,1,1,2,2);
-let circles = [ c2];
+// let c2 = new circle(200,100,30,orange_color,1,1,2,2);
+// let circles = [ c2];
 
 function animate_circle() {
     // let id = requestAnimationFrame(animate_circle);
@@ -12,7 +12,7 @@ function animate_circle() {
     let now = Date.now();
     let elapsed = now - then;
     if (elapsed > FPS_INTERVAL || FRAME_COUNT == 0) {
-        check_collision();
+        // check_collision();
         then = now - (elapsed % FPS_INTERVAL);
         gl.clear(gl.COLOR_BUFFER_BIT);
         for(let c of circles) {
@@ -66,6 +66,8 @@ document.addEventListener('keydown',
     }
 )
 
+
+
 // c1 = (x1,y1,r1)      x1, y1 are center coords
 // c2 = (x2, y2, r2)    x1, y1 are center coords
 // c1 and c2 intersect if the following is true
@@ -83,6 +85,9 @@ function check_collision() {
 function main() {
     init_gl();
     p.speak();
+    p.draw();
+    e.speak();
+    e.draw();
     // animate_circle();
 }   
 
