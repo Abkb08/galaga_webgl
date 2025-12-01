@@ -87,3 +87,13 @@ class player extends circle {
 
 }
 // child - enemy class
+class enemy extends circle {
+    constructor(centerx, centery, radius, color, xdir, ydir, xspeed, yspeed) {
+        super(centerx, centery, radius, color, xdir, ydir, xspeed, yspeed);
+        this.bdir = -1
+        this.bspeed = -5;
+    }
+    speak() {
+        console.log("Hello from enemy!")
+    }
+}
