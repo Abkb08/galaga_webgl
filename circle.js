@@ -77,23 +77,33 @@ class player extends circle {
     constructor(centerx,centery,radius,color,
         xdir, ydir, xspeed, yspeed){
         super(centerx,centery,radius,color,
-            xdir,ydir,xspeed,yspeed);
+            xdir,xspeed);
+        // ----- SET VARIABLES -----
         this.bdir = 1;      // bullet direction
-        this.bspeed = 5;
+        this.bspeed = 5;    // bullet speed
+        ydir = 0;
+        yspeed = 0;
     }
     speak(){
         console.log("Hello from player!")
     }
-
+    spawn(){
+       p.draw(); 
+    }
 }
 // child - enemy class
 class enemy extends circle {
     constructor(centerx, centery, radius, color, xdir, ydir, xspeed, yspeed) {
         super(centerx, centery, radius, color, xdir, ydir, xspeed, yspeed);
+        // ----- SET VARIABLES -----
         this.bdir = -1
         this.bspeed = -5;
     }
     speak() {
         console.log("Hello from enemy!")
+    }
+    spawn(){    
+        // spawn enemy page 1
+
     }
 }
