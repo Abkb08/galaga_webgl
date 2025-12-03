@@ -82,10 +82,6 @@ class circle {
     getr() { return this.radius; }
 }
 
-// Notes:
-// bdir - bullet direction. 
-// bspeed is set and consistent for both enemy and player
-
 // child - player class
 class player extends circle {
     constructor(centerx,centery,radius,color,
@@ -93,10 +89,9 @@ class player extends circle {
         super(centerx,centery,radius,color,
             xdir,xspeed);
         // ----- SET VARIABLES -----
-        this.bdir = 1;      // bullet direction
-        this.bspeed = 5;    // bullet speed
-        ydir = 0;
-        yspeed = 0;
+
+        this.ydir = 0;
+        this.yspeed = 0;
     }
     speak(){
         console.log("Hello from player!")
@@ -221,5 +216,27 @@ class formation {
     // }
     hello() {
         console.log("Hello from formation!");
+    }
+}
+
+// projectile class
+class Projectile{
+    constructor(x,y,radius,color, move){
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.move = move;
+    }
+    draw(){
+        canvas.beginPath();
+        canvas.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+        canvas.fillStyle = this.color;
+        canvas.fill();
+    }
+    update(){
+        this.draw();
+        this.x = this.x + this.move.x;
+        this.y = this.y + this.move.y;
     }
 }
