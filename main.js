@@ -54,7 +54,7 @@ function animate_enemies() {
         cancelAnimationFrame(id);
     }
 }
-*/
+
 function start_anime() {
     console.log("start");
     animate_enemies();
