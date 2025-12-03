@@ -91,12 +91,18 @@ class player extends circle {
     constructor(centerx,centery,radius,color,
         xdir, ydir, xspeed, yspeed){
         super(centerx,centery,radius,color,
-            xdir,ydir,xspeed,yspeed);
+            xdir,xspeed);
+        // ----- SET VARIABLES -----
         this.bdir = 1;      // bullet direction
-        this.bspeed = 5;
+        this.bspeed = 5;    // bullet speed
+        ydir = 0;
+        yspeed = 0;
     }
     speak(){
         console.log("Hello from player!")
+    }
+    spawn(){
+       p.draw(); 
     }
 }
 
@@ -135,6 +141,46 @@ class enemy extends circle {
     }
     speak() {
         console.log("Hello from enemy!")
+    }
+}
+
+class formation {
+    constructor(enemy_list, form_x, form_y, xdir) {
+        this.enemy_list = enemy_list;
+        this.form_x = form_x;
+        this.form_y = form_y;
+        this.xdir = xdir;
+        // this.minOffsetX = this.enemy_list[0][0].centerx - this.enemy_list[0][0].radius;
+        // this.minOffsetY = this.enemy_list[0][0].centery - this.enemy_list[0][0].radius;
+    }
+
+    calc_x_offset() {
+        for(let e of this.enemy_list) {
+            this.minOffsetX = Math.min(this.minOffsetX, e.offsetx);
+        }
+    }
+    calc_y_offset() {
+        for(let e of this.enemy_list) {
+            this.minOffsetY = min(this.minOffsetY, e.offsety);
+        }
+    }
+
+    draw_enemies() {
+        for(let e of this.enemy_list) {
+            if (e.alive == true) {
+                e.draw_from_formation(this);
+            }
+        }
+    }
+
+    // check_collision() {
+    //     if(this.minOffsetX <= 0 || this.minOffsetX >= width) {
+    //         this.form_y -= 30;
+    //         this.xdir = -this.xdir;
+    //     }
+    // }
+    hello() {
+        console.log("Hello from formation!");
     }
 }
 

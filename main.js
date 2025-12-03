@@ -1,6 +1,6 @@
 // import { circle } from './circle.js'
 let row_1 = [];
-let p = new player(300,300,50,lime_green,-1,-1,1,1,1);
+let p = new player(300,500,40,magenta_color,-1,-1,1,1,1);
 // ----- OLD CIRCLE ENEMY CLASS -----
 // for(let i = 100; i <= 500; i += 100){
 //     row_1.push(new enemy(i, 200, 25, orange_color, enemy_xdir, 
@@ -54,7 +54,7 @@ function animate_enemies() {
         cancelAnimationFrame(id);
     }
 }
-
+*/
 function start_anime() {
     console.log("start");
     animate_enemies();
@@ -62,40 +62,27 @@ function start_anime() {
 
 function stop_anime() {
     console.log("stop");
-    cancelAnimationFrame(id);
+    //cancelAnimationFrame(id);
 }
 
-// PLAYER MOVEMENT
+// PLAYER MOVEMENT - left and right
 // key events: keydown, keyup, keypress
 document.addEventListener('keydown',
     function(event) {
         switch (event.key) {
-            case 'w' :
-                console.log("Keydown:",event.key);
-                c1.move_y(-5);
-                gl.clear(gl.COLOR_BUFFER_BIT);
-                c1.draw();
-                break;
-            case 's' :
-                c1.move_y(5);
-                gl.clear(gl.COLOR_BUFFER_BIT);
-                c1.draw();
-                break;
             case 'a' :
-                c1.move_x(-5);
+                p.move_x(-5);
                 gl.clear(gl.COLOR_BUFFER_BIT);
-                c1.draw();
+                p.draw();
                 break;
             case 'd' :
-                c1.move_x(5);
+                p.move_x(5);
                 gl.clear(gl.COLOR_BUFFER_BIT);
-                c1.draw();
+                p.draw();
                 break;
         }
     }
 )
-
-
 
 // c1 = (x1,y1,r1)      x1, y1 are center coords
 // c2 = (x2, y2, r2)    x1, y1 are center coords
