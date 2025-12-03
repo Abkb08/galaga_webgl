@@ -40,6 +40,26 @@ let then = Date.now();          //date is built in javascript to get date and ti
 
 let id;
 
+
+// ----- INDIVIDUAL ENEMY VARIABLES -----
+let enemy_speed = 10;
+let enemy_xdir = 1;
+let enemy_ydir = 0;
+let enemy_xspeed = 2;
+let enemy_yspeed = 0;
+
+
+// ----- ENEMY GROUP FORMATION VARIABLES -----
+let form_x;
+let form_y;
+let row_index = 0;
+let row_spacing = 100;
+let col_index = 0;
+let col_spacing = 100;
+let group_position = 0;
+//To edit: group_position + (row_index * row_spacing)
+
+
 function create_gl_program() {
     let vs = gl.createShader(gl.VERTEX_SHADER);
     let fs = gl.createShader(gl.FRAGMENT_SHADER);

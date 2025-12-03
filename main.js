@@ -1,39 +1,68 @@
 // import { circle } from './circle.js'
-
+let row_1 = [];
 const p = new player(300,500,40,magenta_color,-1,-1,1,1,1);
-let e = new enemy(300,200,20,orange_color,-1,-1,1,1,1);
+// ----- OLD CIRCLE ENEMY CLASS -----
+// for(let i = 100; i <= 500; i += 100){
+//     row_1.push(new enemy(i, 200, 25, orange_color, enemy_xdir, 
+//                         enemy_ydir, enemy_xspeed, enemy_yspeed));
+// }
+for(let i = 0; i < 5; i++) {
+    row_1.push(new enemy(i, 0, 25, orange_color));
+}
+
+let f = new formation(row_1, 50, 100, 1);
+
+// let e = new enemy(300,200,20,orange_color,-1,-1,1,1,1);
 
 const projectile1 = new Projectile(200,200,
     orange_color, 2);
 const projectiles = [];
 
 //let c1 = new circle(300,300,50,lime_green,-1,-1,1,1);
-//let c2 = new circle(200,100,30,orange_color,1,1,2,2);
-//let circles = [c1, c2];
-/*
-function animate_circle() {
-    // let id = requestAnimationFrame(animate_circle);
-    id = requestAnimationFrame(animate_circle);
-    let now = Date.now();
+// let c2 = new circle(200,100,30,orange_color,1,1,2,2);
+// let circles = [ c2];
+
+// function animate_circle() {
+//     // let id = requestAnimationFrame(animate_circle);
+//     id = requestAnimationFrame(animate_circle);
+//     let now = Date.now();
+//     let elapsed = now - then;
+//     if (elapsed > FPS_INTERVAL || FRAME_COUNT == 0) {
+//         // check_collision();
+//         then = now - (elapsed % FPS_INTERVAL);
+//         gl.clear(gl.COLOR_BUFFER_BIT);
+//         for(let c of circles) {
+//             c.move();
+//             c.draw();
+//         }
+//         ++FRAME_COUNT;
+//     }
+//     if (FRAME_COUNT == TOTAL_FRAMES) {
+//         cancelAnimationFrame(id);
+//     }
+// }
+
+function animate_enemies() {
+    id = requestAnimationFrame(animate_enemies);
+    let now = Date.now()
     let elapsed = now - then;
     if (elapsed > FPS_INTERVAL || FRAME_COUNT == 0) {
-        // check_collision();
         then = now - (elapsed % FPS_INTERVAL);
         gl.clear(gl.COLOR_BUFFER_BIT);
-       /* for(let c of circles) {
-            c.move();
-            c.draw();
-        }*
+        for(let e of row_1) {
+            // e.move();
+            e.draw();
+        }
         ++FRAME_COUNT;
     }
     if (FRAME_COUNT == TOTAL_FRAMES) {
         cancelAnimationFrame(id);
     }
 }
-*/
+
 function start_anime() {
     console.log("start");
-    //animate_circle();
+    animate_enemies();
 }
 
 function stop_anime() {
@@ -103,9 +132,15 @@ function main() {
     init_gl();
     p.speak();
     p.spawn();
-    //e.speak();
-    //e.draw();
+    e.speak();
+    e.draw();
     // animate_circle();
+    // ----- OLD ENEMY CLASS DRAW
+    // for(let e of row_1) {
+    //     e.draw();
+    // }
+    f.draw_enemies();
+    // animate_enemies();
     animate();
 }   
 
