@@ -140,25 +140,62 @@ class enemy extends circle {
     }
 }
 
-// projectile class
-class Projectile{
-    constructor(x,y,radius,color, move){
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
-        this.color = color;
-        this.move = move;
+class formation {
+    constructor(enemy_list, form_x, form_y, xdir) {
+        this.enemy_list = enemy_list;
+        this.form_x = form_x;
+        this.form_y = form_y;
+        this.xdir = xdir;
+        this.min_offset_x = 0;
+        this.minOffsetY = 0;
+        this.max_offset_x = 0;
+        this.maxOffsetY = 0;
+        // this.min_offset_x = this.enemy_list[0][0].centerx - this.enemy_list[0][0].radius;
+        // this.minOffsetY = this.enemy_list[0][0].centery - this.enemy_list[0][0].radius;
     }
-    draw(){
-        canvas.beginPath();
-        canvas.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
-        canvas.fillStyle = this.color;
-        canvas.fill();
+
+    calcOffset() {
+        this.min_offset_x = Infinity;
+        this.max_offset_x = -Infinity;
+
+        for(let e of this.enemy_list) {
+            if(!e.alive) continue;
+
+            if(e.offsetx < this.min_offset_x) {
+                this.min_offset_x = e.offsetx;
+            }
+            if(e.offsetx > this.max_offset_x) {
+                this.max_offset_x = e.offsetx;
+            }
+        }
     }
-    update(){
-        this.draw();
-        this.x = this.x + this.move.x;
-        this.y = this.y + this.move.y;
+
+    
+    draw_enemies() {
+        for(let e of this.enemy_list) {
+            if (e.alive == true) {
+                e.draw_from_formation(this);
+            }
+        }
+    }
+    
+    move() {
+        this.calcOffset();
+
+        let left = this.form_x + this.min_offset_x - enemy_radius;
+        let right = this.form_x + this.max_offset_x + enemy_radius;
+
+        if(left <= 0 || right >= width) {
+            this.xdir = -this.xdir;
+            this.form_y += 30;
+        }
+
+        this.form_x += this.xdir * enemy_speed;
+    }
+
+    hello() {
+        console.log("Hello from formation!");
+        console.log(this.min_offset_x + "," + this.max_offset_x);
     }
 }
 
