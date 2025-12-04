@@ -82,10 +82,6 @@ class circle {
     getr() { return this.radius; }
 }
 
-// Notes:
-// bdir - bullet direction. 
-// bspeed is set and consistent for both enemy and player
-
 // child - player class
 class player extends circle {
     constructor(centerx,centery,radius,color,
@@ -93,10 +89,9 @@ class player extends circle {
         super(centerx,centery,radius,color,
             xdir,xspeed);
         // ----- SET VARIABLES -----
-        this.bdir = 1;      // bullet direction
-        this.bspeed = 5;    // bullet speed
-        ydir = 0;
-        yspeed = 0;
+
+        this.ydir = 0;
+        this.yspeed = 0;
     }
     speak(){
         console.log("Hello from player!")
@@ -145,42 +140,46 @@ class enemy extends circle {
     }
 }
 
-class formation {
-    constructor(enemy_list, form_x, form_y, xdir) {
-        this.enemy_list = enemy_list;
-        this.form_x = form_x;
-        this.form_y = form_y;
-        this.xdir = xdir;
-        // this.minOffsetX = this.enemy_list[0][0].centerx - this.enemy_list[0][0].radius;
-        // this.minOffsetY = this.enemy_list[0][0].centery - this.enemy_list[0][0].radius;
+// projectile class
+class Projectile{
+    constructor(x,y,radius,color, move){
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.move = move;
     }
+    draw(){
+        canvas.beginPath();
+        canvas.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+        canvas.fillStyle = this.color;
+        canvas.fill();
+    }
+    update(){
+        this.draw();
+        this.x = this.x + this.move.x;
+        this.y = this.y + this.move.y;
+    }
+}
 
-    calc_x_offset() {
-        for(let e of this.enemy_list) {
-            this.minOffsetX = Math.min(this.minOffsetX, e.offsetx);
-        }
+// projectile class
+class Projectile{
+    constructor(x,y,radius,color, move){
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.move = move;
     }
-    calc_y_offset() {
-        for(let e of this.enemy_list) {
-            this.minOffsetY = min(this.minOffsetY, e.offsety);
-        }
+    draw(){
+        canvas.beginPath();
+        canvas.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+        canvas.fillStyle = this.color;
+        canvas.fill();
     }
-
-    draw_enemies() {
-        for(let e of this.enemy_list) {
-            if (e.alive == true) {
-                e.draw_from_formation(this);
-            }
-        }
-    }
-
-    // check_collision() {
-    //     if(this.minOffsetX <= 0 || this.minOffsetX >= width) {
-    //         this.form_y -= 30;
-    //         this.xdir = -this.xdir;
-    //     }
-    // }
-    hello() {
-        console.log("Hello from formation!");
+    update(){
+        this.draw();
+        this.x = this.x + this.move.x;
+        this.y = this.y + this.move.y;
     }
 }
