@@ -8,7 +8,7 @@ const p = new player(300,500,40,magenta_color,-1,-1,1,1,1);
 // }
 for(let i = 0; i < num_columns; i++) {
     for(let j=0; j<num_rows; j++) {
-        row_1.push(new enemy(i, 0, enemy_radius, orange_color));
+        row_1.push(new enemy(i, j, enemy_radius, orange_color));
 
     }
 }
