@@ -138,6 +138,7 @@ class enemy extends circle {
         this.centery = formation.form_y + this.offsety;
         this.draw();
     }
+    
     speak() {
         console.log("Hello from enemy!")
     }
