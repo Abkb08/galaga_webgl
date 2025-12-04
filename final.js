@@ -46,11 +46,12 @@ let id;
 
 
 // ----- INDIVIDUAL ENEMY VARIABLES -----
-let enemy_speed = 10;
+let enemy_speed = 1;
 let enemy_xdir = 1;
 let enemy_ydir = 0;
 let enemy_xspeed = 2;
 let enemy_yspeed = 0;
+let enemy_radius = 20;
 
 
 // ----- ENEMY GROUP FORMATION VARIABLES -----
@@ -61,6 +62,8 @@ let row_spacing = 100;
 let col_index = 0;
 let col_spacing = 100;
 let group_position = 0;
+let num_rows= 1;
+let num_columns = 5;
 //To edit: group_position + (row_index * row_spacing)
 
 

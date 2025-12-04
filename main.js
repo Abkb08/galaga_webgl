@@ -9,8 +9,11 @@ const p = new player(playerx,playery,40,magenta_color,-1,-1,1,1,1);
 //     row_1.push(new enemy(i, 200, 25, orange_color, enemy_xdir, 
 //                         enemy_ydir, enemy_xspeed, enemy_yspeed));
 // }
-for(let i = 0; i < 5; i++) {
-    row_1.push(new enemy(i, 0, 25, orange_color));
+for(let i = 0; i < num_columns; i++) {
+    for(let j=0; j<num_rows; j++) {
+        row_1.push(new enemy(i, 0, enemy_radius, orange_color));
+
+    }
 }
 
 let f = new formation(row_1, 50, 100, 1);
@@ -63,12 +66,13 @@ function animate_enemies() {
 
 function start_anime() {
     console.log("start");
+    animate();
     // animate_enemies();
 }
 
 function stop_anime() {
     console.log("stop");
-    //cancelAnimationFrame(id);
+    cancelAnimationFrame(id);
 }
 
 function animate(){
@@ -82,6 +86,8 @@ function animate(){
     // drawing enemies, player, projectiles
     f.draw_enemies();
     p.draw();
+    f.move();
+    f.draw_enemies();
     projectiles.forEach(projectile => {
         projectile.update();
     })  
@@ -139,8 +145,8 @@ function main() {
     init_gl();
     p.speak();
     p.spawn();
-   // e.speak();
-   // e.draw();
+    // e.speak();
+    // e.draw();
     // animate_circle();
     // ----- OLD ENEMY CLASS DRAW
     // for(let e of row_1) {
@@ -148,7 +154,8 @@ function main() {
     // }
     // f.draw_enemies();
     // animate_enemies();
-    animate();
+    // animate();
+    f.hello();
 }   
 
 main();
