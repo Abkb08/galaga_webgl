@@ -57,7 +57,7 @@ function animate_enemies() {
 
 function start_anime() {
     console.log("start");
-    animate_enemies();
+    // animate_enemies();
 }
 
 function stop_anime() {
