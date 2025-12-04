@@ -1,5 +1,6 @@
 // import { circle } from './circle.js'
 let row_1 = [];
+// variables for player x and y, which also determine bullet x and y
 let playerx = 300;
 let playery = 500;
 const p = new player(playerx,playery,40,magenta_color,-1,-1,1,1,1);
@@ -73,8 +74,13 @@ function stop_anime() {
 function animate(){
     console.log("Animating...");
     requestAnimationFrame(animate);
+
+    // clearing both Canvases
     gl.clear(gl.COLOR_BUFFER_BIT);
     c.clearRect(0,0, canvas.width, canvas.height);
+
+    // drawing enemies, player, projectiles
+    f.draw_enemies();
     p.draw();
     projectiles.forEach(projectile => {
         projectile.update();
@@ -140,8 +146,8 @@ function main() {
     // for(let e of row_1) {
     //     e.draw();
     // }
-    f.draw_enemies();
-    animate_enemies();
+    // f.draw_enemies();
+    // animate_enemies();
     animate();
 }   
 

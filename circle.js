@@ -1,6 +1,5 @@
 "use strict";
 
-
 // parent - mother class
 class circle {
     constructor(centerx,centery,radius, color, xdir, ydir, xspeed, yspeed) {
