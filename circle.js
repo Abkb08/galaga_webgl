@@ -1,4 +1,6 @@
 "use strict";
+
+
 // parent - mother class
 class circle {
     constructor(centerx,centery,radius, color, xdir, ydir, xspeed, yspeed) {
@@ -61,9 +63,11 @@ class circle {
 
     move_x(x) {
         this.centerx += x;
+        playerx +=x;
     }
     move_y(y) {
         this.centery += y;
+        playery +=y;
     }
 
     check_collision() {
@@ -167,47 +171,6 @@ class formation {
             }
         }
     }
-
-    // check_collision() {
-    //     if(this.minOffsetX <= 0 || this.minOffsetX >= width) {
-    //         this.form_y -= 30;
-    //         this.xdir = -this.xdir;
-    //     }
-    // }
-    hello() {
-        console.log("Hello from formation!");
-    }
-}
-
-class formation {
-    constructor(enemy_list, form_x, form_y, xdir) {
-        this.enemy_list = enemy_list;
-        this.form_x = form_x;
-        this.form_y = form_y;
-        this.xdir = xdir;
-        // this.minOffsetX = this.enemy_list[0][0].centerx - this.enemy_list[0][0].radius;
-        // this.minOffsetY = this.enemy_list[0][0].centery - this.enemy_list[0][0].radius;
-    }
-
-    calc_x_offset() {
-        for(let e of this.enemy_list) {
-            this.minOffsetX = Math.min(this.minOffsetX, e.offsetx);
-        }
-    }
-    calc_y_offset() {
-        for(let e of this.enemy_list) {
-            this.minOffsetY = min(this.minOffsetY, e.offsety);
-        }
-    }
-
-    draw_enemies() {
-        for(let e of this.enemy_list) {
-            if (e.alive == true) {
-                e.draw_from_formation(this);
-            }
-        }
-    }
-
     // check_collision() {
     //     if(this.minOffsetX <= 0 || this.minOffsetX >= width) {
     //         this.form_y -= 30;
@@ -229,10 +192,10 @@ class Projectile{
         this.move = move;
     }
     draw(){
-        canvas.beginPath();
-        canvas.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
-        canvas.fillStyle = this.color;
-        canvas.fill();
+        c.beginPath();
+        c.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+        c.fillStyle = this.color;
+        c.fill();
     }
     update(){
         this.draw();

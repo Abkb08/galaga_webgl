@@ -1,6 +1,8 @@
 // import { circle } from './circle.js'
 let row_1 = [];
-const p = new player(300,500,40,magenta_color,-1,-1,1,1,1);
+let playerx = 300;
+let playery = 500;
+const p = new player(playerx,playery,40,magenta_color,-1,-1,1,1,1);
 // ----- OLD CIRCLE ENEMY CLASS -----
 // for(let i = 100; i <= 500; i += 100){
 //     row_1.push(new enemy(i, 200, 25, orange_color, enemy_xdir, 
@@ -14,8 +16,6 @@ let f = new formation(row_1, 50, 100, 1);
 
 // let e = new enemy(300,200,20,orange_color,-1,-1,1,1,1);
 
-const projectile1 = new Projectile(200,200,
-    orange_color, 2);
 const projectiles = [];
 
 //let c1 = new circle(300,300,50,lime_green,-1,-1,1,1);
@@ -74,10 +74,11 @@ function animate(){
     console.log("Animating...");
     requestAnimationFrame(animate);
     gl.clear(gl.COLOR_BUFFER_BIT);
+    c.clearRect(0,0, canvas.width, canvas.height);
     p.draw();
-    /*projectiles.forEach(projectile => {
+    projectiles.forEach(projectile => {
         projectile.update();
-    }) */ 
+    })  
 }
 
 // PLAYER MOVEMENT - left and right
@@ -96,19 +97,19 @@ document.addEventListener('keydown',
                 p.draw();
                 break;
             // projectiles shooting up
-            case ' ':
-                console.log("Space bar pressed");
-                projectile1.draw();
-               /* const move = {
-                    x: 5, y: 5
+            case 'w':
+                console.log("W pressed");
+                //projectile1.draw();
+                const move = {
+                    x: 0, y: -5
                 }
                 projectiles.push(new Projectile(
-                    canvas.width/2,
-                    canvas.height/2,
+                    playerx,
+                    playery,
                     5, 
                     'red',
                     move
-                ))*/
+                ))
                 break;
         }
     }
@@ -132,15 +133,15 @@ function main() {
     init_gl();
     p.speak();
     p.spawn();
-    e.speak();
-    e.draw();
+   // e.speak();
+   // e.draw();
     // animate_circle();
     // ----- OLD ENEMY CLASS DRAW
     // for(let e of row_1) {
     //     e.draw();
     // }
     f.draw_enemies();
-    // animate_enemies();
+    animate_enemies();
     animate();
 }   
 

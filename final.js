@@ -1,5 +1,9 @@
 "use strict";
 
+// 2d canvas
+const canv = document.querySelector('canvas');
+const c = canv.getContext('2d');          // context stored in c
+
 // vertex shader code (vsc)
 const vsc = "attribute vec2 vpos;" +
 "void main() {" +
