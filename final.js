@@ -63,6 +63,10 @@ let num_columns = 10;
 //To edit: group_position + (row_index * row_spacing)
 
 
+// ----- PLAYER COORDINATE -----
+
+
+
 function create_gl_program() {
     let vs = gl.createShader(gl.VERTEX_SHADER);
     let fs = gl.createShader(gl.FRAGMENT_SHADER);
