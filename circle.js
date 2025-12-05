@@ -1,4 +1,5 @@
 "use strict";
+
 // parent - mother class
 class circle {
     constructor(centerx,centery,radius, color, xdir, ydir, xspeed, yspeed) {
@@ -61,9 +62,11 @@ class circle {
 
     move_x(x) {
         this.centerx += x;
+        playerx +=x;
     }
     move_y(y) {
         this.centery += y;
+        playery +=y;
     }
 
     check_collision() {
@@ -209,10 +212,10 @@ class Projectile{
         this.move = move;
     }
     draw(){
-        canvas.beginPath();
-        canvas.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
-        canvas.fillStyle = this.color;
-        canvas.fill();
+        c.beginPath();
+        c.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+        c.fillStyle = this.color;
+        c.fill();
     }
     update(){
         this.draw();
