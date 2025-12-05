@@ -1,4 +1,7 @@
 // import { circle } from './circle.js'
+
+let player_score = 0; let player_lives = 3;
+
 let row_1 = [];
 // variables for player x and y, which also determine bullet x and y
 let playerx = 300;
@@ -12,7 +15,6 @@ const p = new player(playerx,playery,40,magenta_color,-1,-1,1,1,1);
 for(let i = 0; i < num_columns; i++) {
     for(let j=0; j<num_rows; j++) {
         row_1.push(new enemy(i, 0, enemy_radius, orange_color));
-
     }
 }
 
@@ -21,6 +23,7 @@ let f = new formation(row_1, 50, 100, 1);
 // let e = new enemy(300,200,20,orange_color,-1,-1,1,1,1);
 
 const projectiles = [];
+const enemy_projectiles = [];
 
 //let c1 = new circle(300,300,50,lime_green,-1,-1,1,1);
 // let c2 = new circle(200,100,30,orange_color,1,1,2,2);
@@ -45,6 +48,16 @@ const projectiles = [];
 //         cancelAnimationFrame(id);
 //     }
 // }
+
+function game_over(){
+    gl.clear(gl.COLOR_BUFFER_BIT);
+   // c.clearRect(0,0, canvas.width, canvas.height);
+    // insert text
+    c.clearRect(0,0,p_canvas.width, p_canvas.height);
+    c.fillStyle = "yellow";
+    c.font = "10px Arial";
+    c.fillText("Game Over",225, 250);
+}
 
 function animate_enemies() {
     id = requestAnimationFrame(animate_enemies);
@@ -77,7 +90,7 @@ function stop_anime() {
 
 function animate(){
     console.log("Animating...");
-    requestAnimationFrame(animate);
+    id = requestAnimationFrame(animate);
 
     // clearing both Canvases
     gl.clear(gl.COLOR_BUFFER_BIT);
@@ -91,8 +104,52 @@ function animate(){
     projectiles.forEach(projectile => {
         projectile.update();
     })  
-}
+    // make enemies shoot projectiles
+  /*  const move = {
+        x: 0, y: 5
+    }
+    enemy_projectiles.push(new Projectile(
+        enemy.row_index,    
+        enemy.col_index,
+        5, 
+        'green',
+        move))
+*/
+    // score console log check
+    console.log("Player Score: ", player_score);
 
+    // COLLISION DETECTION! B/W ENEMY AND PROJECTILE
+    row_1.forEach((enemy, index)=>{
+        projectiles.forEach((projectile, proj_index) => {
+        // calculate distance between enemy and projectile using centers
+        const dist = Math.hypot(projectile.x - enemy.centerx,
+            projectile.y - enemy.centery);
+        // incorporate radiuses to accurately check collision
+        if (dist - enemy.radius - projectile.radius < 1)
+        {
+            console.log("Enemy Hit!");
+            row_1.splice(index, 1);             // pop current index from row_1 (enemies)
+            projectiles.splice(proj_index, 1);  // pop current index from projectiles
+
+            // player score increment
+            player_score = player_score + 50;
+        }
+        })
+    })  // end of collision detection b/w enemy and projectile
+    // COLLISION DETECTION! B/W ENEMY AND PLAYER (nonfunctional)
+   /* row_1.forEach((enemy, index)=>{
+        const dist = Math.hypot(player.centerx - enemy.centerx, 
+            player.centery - enemy.centery);
+        // incorporate radiuses to accurately check collision
+        if (dist - enemy.radius - player.radius < 1)
+        {
+            console.log("Enemy&Player collide!");
+            row_1.splice(index, 1);             // pop current index from row_1 (enemies)
+            game_over();
+        }    
+    })*/
+
+}// end of animate()
 // PLAYER MOVEMENT - left and right
 // key events: keydown, keyup, keypress
 document.addEventListener('keydown',
@@ -110,7 +167,7 @@ document.addEventListener('keydown',
                 break;
             // projectiles shooting up
             case 'w':
-                console.log("W pressed");
+                console.log("Bullet shot!");
                 //projectile1.draw();
                 const move = {
                     x: 0, y: -5
