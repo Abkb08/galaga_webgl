@@ -141,7 +141,8 @@ class enemy extends circle {
     speak() {
         console.log("Hello from enemy!")
     }
-}
+    }
+
 
 class formation {
     constructor(enemy_list, form_x, form_y, xdir) {

@@ -1,7 +1,5 @@
 // import { circle } from './circle.js'
 
-
-
 let row_1 = [];
 // variables for player x and y, which also determine bullet x and y
 
@@ -24,37 +22,13 @@ let f = new formation(row_1, 50, 100, 1);
 const projectiles = [];
 const enemy_projectiles = [];
 
-//let c1 = new circle(300,300,50,lime_green,-1,-1,1,1);
-// let c2 = new circle(200,100,30,orange_color,1,1,2,2);
-// let circles = [ c2];
-
-// function animate_circle() {
-//     // let id = requestAnimationFrame(animate_circle);
-//     id = requestAnimationFrame(animate_circle);
-//     let now = Date.now();
-//     let elapsed = now - then;
-//     if (elapsed > FPS_INTERVAL || FRAME_COUNT == 0) {
-//         // check_collision();
-//         then = now - (elapsed % FPS_INTERVAL);
-//         gl.clear(gl.COLOR_BUFFER_BIT);
-//         for(let c of circles) {
-//             c.move();
-//             c.draw();
-//         }
-//         ++FRAME_COUNT;
-//     }
-//     if (FRAME_COUNT == TOTAL_FRAMES) {
-//         cancelAnimationFrame(id);
-//     }
-// }
-
 function game_over(){
     gl.clear(gl.COLOR_BUFFER_BIT);
    // c.clearRect(0,0, canvas.width, canvas.height);
     // insert text
     c.clearRect(0,0,p_canvas.width, p_canvas.height);
     c.fillStyle = "yellow";
-    c.font = "10px Arial";
+    c.font = "15px Arial";
     c.fillText("Game Over",225, 250);
 }
 
@@ -79,7 +53,6 @@ function animate_enemies() {
 function start_anime() {
     console.log("start");
     animate();
-    // animate_enemies();
 }
 
 function stop_anime() {
@@ -91,11 +64,11 @@ function animate(){
     console.log("Animating...");
     id = requestAnimationFrame(animate);
 
-    // clearing both Canvases
+    // CLEARING BOTH CANVASES
     gl.clear(gl.COLOR_BUFFER_BIT);
     c.clearRect(0,0, canvas.width, canvas.height);
 
-    // drawing enemies, player, projectiles
+    // DRAWING ENEMIES, PLAYER, PROJECTILES
     f.draw_enemies();
     p.draw();
     f.move();
@@ -103,17 +76,16 @@ function animate(){
     projectiles.forEach(projectile => {
         projectile.update();
     })  
-    // make enemies shoot projectiles
-  /*  const move = {
-        x: 0, y: 5
-    }
-    enemy_projectiles.push(new Projectile(
-        enemy.row_index,    
-        enemy.col_index,
-        5, 
-        'green',
-        move))
-*/
+    // ENEMIES SHOOTING PROJECTILES
+    /*row_1.forEach((enemy) => {
+    enemy_projectiles.forEach(projectile => {
+        if (formation.enemy_list[0][i] == 0){
+
+            projectile.update();
+        }
+    })
+}
+)*/
     // score console log check
     console.log("Player Score: ", player_score);
 
@@ -135,39 +107,56 @@ function animate(){
         }
         })
     })  // end of collision detection b/w enemy and projectile
-    // COLLISION DETECTION! B/W ENEMY AND PLAYER (nonfunctional)
-   /* row_1.forEach((enemy, index)=>{
-        const dist = Math.hypot(player.centerx - enemy.centerx, 
-            player.centery - enemy.centery);
+    // COLLISION DETECTION! B/W ENEMY AND PLAYER (functional)
+    // player loses a life / game over
+    row_1.forEach((enemy, index)=>{
+        /*const dist = Math.hypot(p.centerx - enemy.centerx, 
+            p.centery - enemy.centery);
         // incorporate radiuses to accurately check collision
-        if (dist - enemy.radius - player.radius < 1)
+        if (dist - enemy.radius - p.radius < 1)
         {
             console.log("Enemy&Player collide!");
             row_1.splice(index, 1);             // pop current index from row_1 (enemies)
+            stop_anime();
+
             game_over();
-        }    
-    })*/
+        } */
+        calc1 = Math.pow((enemy.getr() - p.getr()),2);
+        calc2 = Math.pow((enemy.getx()-p.getx()),2) + Math.pow((enemy.gety()-p.gety()),2);
+        calc3 = Math.pow((enemy.getr() + p.getr()),2);
+        if (calc1 <= calc2 && calc2 <= calc3) {
+            console.log("Enemy&Player collide!");
+            row_1.splice(index, 1);             // pop current index from row_1 (enemies)
+            stop_anime();
+            game_over();
+        }  
+    })  // end of collision b/w enemy and player
 
 }// end of animate()
+
 // PLAYER MOVEMENT - left and right
 // key events: keydown, keyup, keypress
 document.addEventListener('keydown',
     function(event) {
         switch (event.key) {
             case 'a' :
-                p.move_x(-5);
+                p.move_x(-7);
                 gl.clear(gl.COLOR_BUFFER_BIT);
                 p.draw();
                 break;
             case 'd' :
-                p.move_x(5);
+                p.move_x(7);
                 gl.clear(gl.COLOR_BUFFER_BIT);
                 p.draw();
                 break;
             // projectiles shooting up
             case 'w':
                 console.log("Bullet shot!");
-                //projectile1.draw();
+                /* trying to add some delay...
+                setTimeout(()=>{
+                    console.log("Waited 3 seconds!");}
+                    , 3000);
+                */
                 const move = {
                     x: 0, y: -5
                 }
@@ -178,25 +167,24 @@ document.addEventListener('keydown',
                     'red',
                     move
                 ))
+                // testing adding projectiles for enemies
+                const move2 = {
+                    x: 0, y: 5
+                }
+                row_1.forEach((enemy, index)=>{
+                enemy_projectiles.push(new Projectile(
+                    enemy.getx(),
+                    enemy.gety(),
+                    5, 
+                    'red',
+                    move2
+                ))
+            })
+                
                 break;
         }
     }
 )
-
-// c1 = (x1,y1,r1)      x1, y1 are center coords
-// c2 = (x2, y2, r2)    x1, y1 are center coords
-// c1 and c2 intersect if the following is true
-// (r1 - r1)^2 <= ((x1-x2) ^2 + (y1-y2) ^2) <= (r1+r2) ^2
-/*
-function check_collision() {
-    calc1 = Math.pow((c1.getr() - c2.getr()),2);
-    calc2 = Math.pow((c1.getx()-c2.getx()),2) + Math.pow((c1.gety()-c2.gety()),2);
-    calc3 = Math.pow((c1.getr() + c2.getr()),2);
-    if (calc1 <= calc2 && calc2 <= calc3) {
-        console.log("collision c1 c2!");
-    }       
-}
-*/
 function main() {
     init_gl();
     p.speak();
