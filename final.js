@@ -44,6 +44,9 @@ let then = Date.now();          //date is built in javascript to get date and ti
 
 let id;
 
+// ----- SOME OTHER GLOBAL VARS -----
+let player_score = 0;
+let player_lives = 3;
 
 // ----- INDIVIDUAL ENEMY VARIABLES -----
 let enemy_speed = 1;
