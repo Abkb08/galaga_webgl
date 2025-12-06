@@ -147,8 +147,10 @@ class enemy extends circle {
 class formation {
     constructor(enemy_list, form_x, form_y, xdir) {
         this.enemy_list = enemy_list;
-        this.form_x = form_x;
-        this.form_y = form_y;
+        this.base_x = form_x;       //to reset x var of formation
+        this.base_y = form_y;       //to reset y var of formation
+        this.form_x = form_x;       //x position of formation (updated with movement)
+        this.form_y = form_y;       //y position of formation (updated with movement)
         this.xdir = xdir;
         this.min_offset_x = 0;
         this.minOffsetY = 0;
@@ -195,11 +197,32 @@ class formation {
         }
 
         this.form_x += this.xdir * enemy_speed;
+        if(this.left == -Infinity || this.right == Infinity) {
+            console.log("resetting...")
+            setTimeout(() => {
+                console.log("resetting now...");
+                this.reset();
+            }, 3000);  //3000 milliseconds = 3 seconds
+        }
     }
 
     hello() {
         console.log("Hello from formation!");
         console.log(this.min_offset_x + "," + this.max_offset_x);
+    }
+    
+    check_alive() {
+        this.enemy_list.forEach((enemy, index) => {
+            if(enemy.alive)
+                return true;
+        });
+    }
+    reset() {
+        this.form_x = form_x;
+        this.form_y = form_y;
+        this.enemy_list.forEach((enemy, index) => {
+            enemy.alive = true;
+        });
     }
 }
 

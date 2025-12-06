@@ -58,8 +58,8 @@ let enemy_radius = 20;
 
 
 // ----- ENEMY GROUP FORMATION VARIABLES -----
-let form_x;
-let form_y;
+const form_x = 50;
+const form_y = 100;
 let row_index = 0;
 let row_spacing = 50;
 let col_index = 0;
@@ -73,8 +73,6 @@ let num_columns = 10;
 // ----- PLAYER COORDINATE -----
 let playerx = 300;
 let playery = 500;
-let player_score = 0;
-let player_lives = 3;
 
 
 function create_gl_program() {
