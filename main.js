@@ -168,7 +168,6 @@ document.addEventListener('keydown',
                     'red',
                     move
                 ))
-
                 // testing adding projectiles for enemies
                 const move2 = {
                     x: 0, y: 5
