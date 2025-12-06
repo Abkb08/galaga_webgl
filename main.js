@@ -40,6 +40,11 @@ function draw_text(){
     c.fillText(player_score, 550, 550);
 }
 
+// 
+function remove_proj(){
+
+}
+
 function game_over(){
     cancelAnimationFrame(id);
     gl.clear(gl.COLOR_BUFFER_BIT);
