@@ -68,7 +68,10 @@ let num_columns = 10;
 
 
 // ----- PLAYER COORDINATE -----
-
+let playerx = 300;
+let playery = 500;
+let player_score = 0;
+let player_lives = 3;
 
 
 function create_gl_program() {

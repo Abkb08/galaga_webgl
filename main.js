@@ -1,11 +1,10 @@
 // import { circle } from './circle.js'
 
-let player_score = 0; let player_lives = 3;
+
 
 let row_1 = [];
 // variables for player x and y, which also determine bullet x and y
-let playerx = 300;
-let playery = 500;
+
 const p = new player(playerx,playery,40,magenta_color,-1,-1,1,1,1);
 // ----- OLD CIRCLE ENEMY CLASS -----
 // for(let i = 100; i <= 500; i += 100){
