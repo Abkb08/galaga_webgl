@@ -201,6 +201,13 @@ class formation {
         console.log("Hello from formation!");
         console.log(this.min_offset_x + "," + this.max_offset_x);
     }
+    spawn(){
+        for(let e of this.enemy_list) {
+            if (e.alive == true) {
+                e.draw_from_formation(this);
+            }
+        }
+    }
 }
 
 // projectile class
@@ -222,5 +229,14 @@ class Projectile{
         this.draw();
         this.x = this.x + this.move.x;
         this.y = this.y + this.move.y;
+    }
+    getx(){
+        return this.x;
+    }
+    gety(){
+        return this.y;
+    }
+    getr(){
+        return this.radius;
     }
 }
