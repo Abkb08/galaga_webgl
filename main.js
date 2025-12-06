@@ -4,6 +4,7 @@ let row_1 = [];
 // variables for player x and y, which also determine bullet x and y
 let playerx = 300;
 let playery = 500;
+let cooldown = false;
 const p = new player(playerx,playery,40,magenta_color,-1,-1,1,1,1);
 // ----- OLD CIRCLE ENEMY CLASS -----
 // for(let i = 100; i <= 500; i += 100){
@@ -26,6 +27,11 @@ const projectiles = [];
 const enemy_projectiles = [];
 //let string = ("Score: ", player_score);
 
+// start screen
+function start_screen(){
+    c.fillstyle = "whtite"
+    c.fonts = ""
+}
 // score text draw...
 function draw_text(){
     c.fillStyle = "yellow";
@@ -75,9 +81,6 @@ function stop_anime() {
 }
 
 function animate(){
-
-    // add spawning 
-    // ...
     console.log("Animating...");
     id = requestAnimationFrame(animate);
 
@@ -119,7 +122,7 @@ function animate(){
         if (calc1 <= calc2 && calc2 <= calc3 && enemy.alive == true) {
             console.log("Enemy Hit!");
             enemy.alive = false;
-            row_1.splice(index, 1);             // pop current index from row_1 (enemies)
+            //row_1.splice(index, 1);             // pop current index from row_1 (enemies)
             projectiles.splice(proj_index, 1);  // pop current index from projectiles
 
             // player score increment
@@ -179,13 +182,18 @@ document.addEventListener('keydown',
                 const move = {
                     x: 0, y: -5
                 }
-                projectiles.push(new Projectile(
-                    playerx,
-                    playery,
-                    5, 
-                    'red',
-                    move
-                ))
+                if (cooldown == false){
+                    projectiles.push(new Projectile(
+                        playerx,
+                        playery,
+                        5, 
+                        'red',
+                        move
+                    ))
+                cooldown = true;
+                setTimeout(() => cooldown = false, 500);
+
+                }
                 // testing adding projectiles for enemies
                 const move2 = {
                     x: 0, y: 5

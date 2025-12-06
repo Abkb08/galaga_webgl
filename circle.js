@@ -70,12 +70,13 @@ class circle {
     }
 
     check_collision() {
+        // checking with edge of the canvas
         if( (this.centerx - this.radius <= 0 || this.centerx + this.radius >= 600) ||
             (this.centerx + this.radius >= width)) {
             return true;
         }
         if( (this.centery - this.radius <= 0) ||
-            (this.centery + this.radius >= height)) {
+            (this.centery + this.radius >= height)){
             return false;
         }
     }
