@@ -1,8 +1,6 @@
 // import { circle } from './circle.js'
 
 // variables for player x and y, which also determine bullet x and y
-let playerx = 300;
-let playery = 500;
 let cooldown = false;
 const p = new player(playerx,playery,40,magenta_color,-1,-1,1,1,1);
 // ----- OLD CIRCLE ENEMY CLASS -----
