@@ -1,9 +1,6 @@
 // import { circle } from './circle.js'
 
-let row_1 = []; 
 // variables for player x and y, which also determine bullet x and y
-let playerx = 300;
-let playery = 500;
 let cooldown = false;
 const p = new player(playerx,playery,40,magenta_color,-1,-1,1,1,1);
 // ----- OLD CIRCLE ENEMY CLASS -----
@@ -12,19 +9,31 @@ const p = new player(playerx,playery,40,magenta_color,-1,-1,1,1,1);
 //                         enemy_ydir, enemy_xspeed, enemy_yspeed));
 // }
 
-// enemies
-for(let i = 0; i < num_columns; i++) {
-    for(let j=0; j<num_rows; j++) {
-        row_1.push(new enemy(i, j, enemy_radius, orange_color));
-    }
-}
 
-let f = new formation(row_1, 50, 100, 1);
+// ----- OLD WAY OF SPAWNING ENEMIES (WORKING) -- MOVED TO SPAWN_ENEMIES FUNCTION -----
+// for(let i = 0; i < num_columns; i++) {
+//     for(let j=0; j<num_rows; j++) {
+//         row_1.push(new enemy(i, j, enemy_radius, orange_color));
+//     }
+// }
+// let f = new formation(row_1, 50, 100, 1);
 
 // let e = new enemy(300,200,20,orange_color,-1,-1,1,1,1);
 
 const projectiles = [];
 const enemy_projectiles = [];
+let f;
+let row_1 = [];
+
+function spawn_enemies() {
+    for(let i = 0; i < num_columns; i++) {
+        for(let j=0; j<num_rows; j++) {
+            row_1.push(new enemy(i, j, enemy_radius, orange_color));
+        }
+    }
+    f = new formation(row_1, form_x, form_y, 1);
+    f.draw_enemies();
+}
 //let string = ("Score: ", player_score);
 
 // start screen
@@ -72,6 +81,7 @@ function animate_enemies() {
 function start_anime() {
     gl.clear(gl.COLOR_BUFFER_BIT);
     c.clearRect(0,0, canvas.width, canvas.height);
+    spawn_enemies();
     animate();
 }
 
@@ -81,7 +91,7 @@ function stop_anime() {
 }
 
 function animate(){
-    console.log("Animating...");
+    // console.log("Animating...");
     id = requestAnimationFrame(animate);
 
     // CLEARING BOTH CANVASES
@@ -109,7 +119,7 @@ function animate(){
 }
 )*/
     // score console log check
-    console.log("Player Score: ", player_score);
+    // console.log("Player Score: ", player_score);
 
     // COLLISION DETECTION! B/W ENEMY AND PROJECTILE
     row_1.forEach((enemy, index)=>{
@@ -122,9 +132,9 @@ function animate(){
         if (calc1 <= calc2 && calc2 <= calc3 && enemy.alive == true) {
             console.log("Enemy Hit!");
             enemy.alive = false;
-            //row_1.splice(index, 1);             // pop current index from row_1 (enemies)
+            // Way to remove the enemies by removing them from array
+            // row_1.splice(index, 1);             // pop current index from row_1 (enemies)
             projectiles.splice(proj_index, 1);  // pop current index from projectiles
-
             // player score increment
             player_score = player_score + 50; 
         }  
@@ -225,7 +235,7 @@ function main() {
     // f.draw_enemies();
     // animate_enemies();
     // animate();
-    f.hello();
+    // f.hello();
 }   
 
 main();
