@@ -1,7 +1,9 @@
 // import { circle } from './circle.js'
 
 // variables for player x and y, which also determine bullet x and y
-
+let playerx = 300;
+let playery = 500;
+let cooldown = false;
 const p = new player(playerx,playery,40,magenta_color,-1,-1,1,1,1);
 // ----- OLD CIRCLE ENEMY CLASS -----
 // for(let i = 100; i <= 500; i += 100){
@@ -34,14 +36,29 @@ function spawn_enemies() {
     f = new formation(row_1, form_x, form_y, 1);
     f.draw_enemies();
 }
+//let string = ("Score: ", player_score);
+
+// start screen
+function start_screen(){
+    c.fillstyle = "whtite"
+    c.fonts = ""
+}
+// score text draw...
+function draw_text(){
+    c.fillStyle = "yellow";
+    c.font = "15px Arial";
+    c.fillText("Score: ", 500, 550);
+    c.fillText(player_score, 550, 550);
+}
 
 function game_over(){
+    cancelAnimationFrame(id);
     gl.clear(gl.COLOR_BUFFER_BIT);
    // c.clearRect(0,0, canvas.width, canvas.height);
     // insert text
     c.clearRect(0,0,p_canvas.width, p_canvas.height);
     c.fillStyle = "yellow";
-    c.font = "15px Arial";
+    c.font = "30px Arial";
     c.fillText("Game Over",225, 250);
 }
 
@@ -64,7 +81,8 @@ function animate_enemies() {
 }
 
 function start_anime() {
-    console.log("start");
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    c.clearRect(0,0, canvas.width, canvas.height);
     spawn_enemies();
     animate();
 }
@@ -87,6 +105,8 @@ function animate(){
     p.draw();
     f.move();
     f.draw_enemies();
+    draw_text();
+    
     projectiles.forEach(projectile => {
         projectile.update();
     })  
@@ -107,19 +127,19 @@ function animate(){
     row_1.forEach((enemy, index)=>{
         projectiles.forEach((projectile, proj_index) => {
         // calculate distance between enemy and projectile using centers
-        const dist = Math.hypot(projectile.x - enemy.centerx,
-            projectile.y - enemy.centery);
-        // incorporate radiuses to accurately check collision
-        if (dist - enemy.radius - projectile.radius < 1)
-        {
+
+        calc1 = Math.pow((enemy.getr() - projectile.getr()),2);
+        calc2 = Math.pow((enemy.getx()-projectile.getx()),2) + Math.pow((enemy.gety()-projectile.gety()),2);
+        calc3 = Math.pow((enemy.getr() + projectile.getr()),2);
+        if (calc1 <= calc2 && calc2 <= calc3 && enemy.alive == true) {
             console.log("Enemy Hit!");
             enemy.alive = false;
             // Way to remove the enemies by removing them from array
             // row_1.splice(index, 1);             // pop current index from row_1 (enemies)
             projectiles.splice(proj_index, 1);  // pop current index from projectiles
             // player score increment
-            player_score = player_score + 50;
-        }
+            player_score = player_score + 50; 
+        }  
         })
     })  // end of collision detection b/w enemy and projectile
     // COLLISION DETECTION! B/W ENEMY AND PLAYER (functional)
@@ -139,9 +159,8 @@ function animate(){
         calc1 = Math.pow((enemy.getr() - p.getr()),2);
         calc2 = Math.pow((enemy.getx()-p.getx()),2) + Math.pow((enemy.gety()-p.gety()),2);
         calc3 = Math.pow((enemy.getr() + p.getr()),2);
-        if (calc1 <= calc2 && calc2 <= calc3) {
+        if (calc1 <= calc2 && calc2 <= calc3 && enemy.alive == true) {
             console.log("Enemy&Player collide!");
-            row_1.splice(index, 1);             // pop current index from row_1 (enemies)
             stop_anime();
             game_over();
         }  
@@ -175,13 +194,18 @@ document.addEventListener('keydown',
                 const move = {
                     x: 0, y: -5
                 }
-                projectiles.push(new Projectile(
-                    playerx,
-                    playery,
-                    5, 
-                    'red',
-                    move
-                ))
+                if (cooldown == false){
+                    projectiles.push(new Projectile(
+                        playerx,
+                        playery,
+                        5, 
+                        'red',
+                        move
+                    ))
+                cooldown = true;
+                setTimeout(() => cooldown = false, 500);
+
+                }
                 // testing adding projectiles for enemies
                 const move2 = {
                     x: 0, y: 5
@@ -194,8 +218,7 @@ document.addEventListener('keydown',
                     'red',
                     move2
                 ))
-            })
-                
+            })    
                 break;
         }
     }
