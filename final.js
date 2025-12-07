@@ -56,7 +56,6 @@ let enemy_xdir = 1;         //could also become private variable
 let enemy_yspeed = 0;       //Not needed?
 let enemy_radius = 20;      //note: move to private variables
 
-
 // ----- ENEMY GROUP FORMATION VARIABLES -----
 const form_x = 50;          //could become private variable, except it changes often
 const form_y = 100;         //could become private variable, except it changes often

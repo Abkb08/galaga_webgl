@@ -39,8 +39,11 @@ function spawn_enemies() {
 
 // start screen
 function start_screen(){
-    c.fillstyle = "whtite"
-    c.fonts = ""
+    c.fillStyle = "yellow";
+    c.font = "50px Fantasy";
+    c.fillText("in a", 150, 230);
+    c.font = "80px Fantasy";
+    c.fillText("GALAXY", 300, 300);
 }
 // score text draw...
 function draw_text(){
@@ -48,6 +51,11 @@ function draw_text(){
     c.font = "15px Arial";
     c.fillText("Score: ", 500, 550);
     c.fillText(player_score, 550, 550);
+}
+
+// 
+function remove_proj(){
+
 }
 
 function game_over(){
@@ -228,8 +236,8 @@ document.addEventListener('keydown',
 )
 function main() {
     init_gl();
-    p.speak();
-    p.spawn();
+    //p.speak();
+    //p.spawn();
     // e.speak();
     // e.draw();
     // animate_circle();
@@ -241,6 +249,7 @@ function main() {
     // animate_enemies();
     // animate();
     // f.hello();
+    start_screen();
 }   
 
 main();
