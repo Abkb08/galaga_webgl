@@ -5,7 +5,7 @@ let cooldown = false;
 const p = new player(playerx,playery,40,magenta_color,-1,-1,1,1,1);
 // ----- OLD CIRCLE ENEMY CLASS -----
 // for(let i = 100; i <= 500; i += 100){
-//     row_1.push(new enemy(i, 200, 25, orange_color, enemy_xdir, 
+//     enemy_map.push(new enemy(i, 200, 25, orange_color, enemy_xdir, 
 //                         enemy_ydir, enemy_xspeed, enemy_yspeed));
 // }
 
@@ -13,25 +13,26 @@ const p = new player(playerx,playery,40,magenta_color,-1,-1,1,1,1);
 // ----- OLD WAY OF SPAWNING ENEMIES (WORKING) -- MOVED TO SPAWN_ENEMIES FUNCTION -----
 // for(let i = 0; i < num_columns; i++) {
 //     for(let j=0; j<num_rows; j++) {
-//         row_1.push(new enemy(i, j, enemy_radius, orange_color));
+//         enemy_map.push(new enemy(i, j, enemy_radius, orange_color));
 //     }
 // }
-// let f = new formation(row_1, 50, 100, 1);
+// let f = new Formation(enemy_map, 50, 100, 1);
 
 // let e = new enemy(300,200,20,orange_color,-1,-1,1,1,1);
 
 const projectiles = [];
 const enemy_projectiles = [];
+//initialized Formation
 let f;
-let row_1 = [];
+let enemy_map = [];
 
 function spawn_enemies() {
     for(let i = 0; i < num_columns; i++) {
         for(let j=0; j<num_rows; j++) {
-            row_1.push(new enemy(i, j, enemy_radius, orange_color));
+            enemy_map.push(new enemy(i, j, enemy_radius, orange_color));
         }
     }
-    f = new formation(row_1, form_x, form_y, 1);
+    f = new Formation(enemy_map, form_x, form_y, 1);
     f.draw_enemies();
 }
 //let string = ("Score: ", player_score);
@@ -68,6 +69,24 @@ function game_over(){
     c.fillText("Game Over",225, 250);
 }
 
+function animate_enemies() {
+    id = requestAnimationFrame(animate_enemies);
+    let now = Date.now()
+    let elapsed = now - then;
+    if (elapsed > FPS_INTERVAL || FRAME_COUNT == 0) {
+        then = now - (elapsed % FPS_INTERVAL);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        for(let e of enemy_map) {
+            // e.move();
+            e.draw();
+        }
+        ++FRAME_COUNT;
+    }
+    if (FRAME_COUNT == TOTAL_FRAMES) {
+        cancelAnimationFrame(id);
+    }
+}
+
 function start_anime() {
     gl.clear(gl.COLOR_BUFFER_BIT);
     c.clearRect(0,0, canvas.width, canvas.height);
@@ -99,9 +118,9 @@ function animate(){
         projectile.update();
     })  
     // ENEMIES SHOOTING PROJECTILES
-    /*row_1.forEach((enemy) => {
+    /*enemy_map.forEach((enemy) => {
     enemy_projectiles.forEach(projectile => {
-        if (formation.enemy_list[0][i] == 0){
+        if (Formation.enemy_list[0][i] == 0){
 
             projectile.update();
         }
@@ -112,34 +131,34 @@ function animate(){
     // console.log("Player Score: ", player_score);
 
     // COLLISION DETECTION! B/W ENEMY AND PROJECTILE
-    row_1.forEach((enemy, index)=>{
+    enemy_map.forEach((enemy, index)=>{
         projectiles.forEach((projectile, proj_index) => {
-        // calculate distance between enemy and projectile using centers
 
+        // calculate distance between enemy and projectile using centers
         calc1 = Math.pow((enemy.getr() - projectile.getr()),2);
         calc2 = Math.pow((enemy.getx()-projectile.getx()),2) + Math.pow((enemy.gety()-projectile.gety()),2);
         calc3 = Math.pow((enemy.getr() + projectile.getr()),2);
+
         if (calc1 <= calc2 && calc2 <= calc3 && enemy.alive == true) {
             console.log("Enemy Hit!");
             enemy.alive = false;
-            // Way to remove the enemies by removing them from array
-            // row_1.splice(index, 1);             // pop current index from row_1 (enemies)
-            projectiles.splice(proj_index, 1);  // pop current index from projectiles
-            // player score increment
-            player_score = player_score + 50; 
+            projectiles.splice(proj_index, 1);          // pop current index from projectiles
+            player_score = player_score + 50;           // player score increment
         }  
         })
     })  // end of collision detection b/w enemy and projectile
+
+
     // COLLISION DETECTION! B/W ENEMY AND PLAYER (functional)
     // player loses a life / game over
-    row_1.forEach((enemy, index)=>{
+    enemy_map.forEach((enemy, index)=>{
         /*const dist = Math.hypot(p.centerx - enemy.centerx, 
             p.centery - enemy.centery);
         // incorporate radiuses to accurately check collision
         if (dist - enemy.radius - p.radius < 1)
         {
             console.log("Enemy&Player collide!");
-            row_1.splice(index, 1);             // pop current index from row_1 (enemies)
+            enemy_map.splice(index, 1);             // pop current index from enemy_map (enemies)
             stop_anime();
 
             game_over();
@@ -153,6 +172,10 @@ function animate(){
             game_over();
         }  
     })  // end of collision b/w enemy and player
+
+    if(!f.check_alive()) {
+        console.log("Enemies are all dead");
+    }
 
 }// end of animate()
 
@@ -198,7 +221,7 @@ document.addEventListener('keydown',
                 const move2 = {
                     x: 0, y: 5
                 }
-                row_1.forEach((enemy, index)=>{
+                enemy_map.forEach((enemy, index)=>{
                 enemy_projectiles.push(new Projectile(
                     enemy.getx(),
                     enemy.gety(),
@@ -219,7 +242,7 @@ function main() {
     // e.draw();
     // animate_circle();
     // ----- OLD ENEMY CLASS DRAW
-    // for(let e of row_1) {
+    // for(let e of enemy_map) {
     //     e.draw();
     // }
     // f.draw_enemies();

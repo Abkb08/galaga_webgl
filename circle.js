@@ -133,9 +133,9 @@ class enemy extends circle {
 
         this.alive = true;
     }
-    draw_from_formation(formation) {
-        this.centerx = formation.form_x + this.offsetx;
-        this.centery = formation.form_y + this.offsety;
+    draw_from_Formation(Formation) {
+        this.centerx = Formation.form_x + this.offsetx;
+        this.centery = Formation.form_y + this.offsety;
         this.draw();
     }
     
@@ -145,13 +145,13 @@ class enemy extends circle {
     }
 
 
-class formation {
+class Formation {
     constructor(enemy_list, form_x, form_y, xdir) {
         this.enemy_list = enemy_list;
-        this.base_x = form_x;       //to reset x var of formation
-        this.base_y = form_y;       //to reset y var of formation
-        this.form_x = form_x;       //x position of formation (updated with movement)
-        this.form_y = form_y;       //y position of formation (updated with movement)
+        this.base_x = form_x;       //to reset x var of Formation
+        this.base_y = form_y;       //to reset y var of Formation
+        this.form_x = form_x;       //x position of Formation (updated with movement)
+        this.form_y = form_y;       //y position of Formation (updated with movement)
         this.xdir = xdir;
         this.min_offset_x = 0;
         this.minOffsetY = 0;
@@ -181,7 +181,7 @@ class formation {
     draw_enemies() {
         for(let e of this.enemy_list) {
             if (e.alive == true) {
-                e.draw_from_formation(this);
+                e.draw_from_Formation(this);
             }
         }
     }
@@ -208,16 +208,22 @@ class formation {
     }
 
     hello() {
-        console.log("Hello from formation!");
+        console.log("Hello from Formation!");
         console.log(this.min_offset_x + "," + this.max_offset_x);
     }
     
     check_alive() {
-        this.enemy_list.forEach((enemy, index) => {
-            if(enemy.alive)
-                return true;
-        });
+        let ret = false;
+        for(let e of this.enemy_list) {
+            if(e.alive == true) {
+                ret = true;
+            }
+        }
+        return ret;
+        
+
     }
+
     reset() {
         this.form_x = form_x;
         this.form_y = form_y;
