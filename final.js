@@ -46,27 +46,27 @@ let id;
 
 // ----- SOME OTHER GLOBAL VARS -----
 let player_score = 0;
-let player_lives = 3;
+let player_lives = 3;       //could become private variable
 
 // ----- INDIVIDUAL ENEMY VARIABLES -----
-let enemy_speed = 1;
-let enemy_xdir = 1;
-let enemy_ydir = 0;
-let enemy_xspeed = 2;
-let enemy_yspeed = 0;
-let enemy_radius = 20;
+let enemy_speed = 1;        //is this doubling up on xspeed
+let enemy_xspeed = 2;       //could become private variable, and make a getter/setter function
+let enemy_ydir = 0;         //Not needed?
+let enemy_xdir = 1;         //could also become private variable
+let enemy_yspeed = 0;       //Not needed?
+let enemy_radius = 20;      //note: move to private variables
 
 
 // ----- ENEMY GROUP FORMATION VARIABLES -----
-const form_x = 50;
-const form_y = 100;
+const form_x = 50;          //could become private variable, except it changes often
+const form_y = 100;         //could become private variable, except it changes often
 let row_index = 0;
 let row_spacing = 50;
 let col_index = 0;
 let col_spacing = 50;
 let group_position = 0;
-let num_rows= 4;
-let num_columns = 10;
+let num_rows= 2;
+let num_columns = 2;
 //To edit: group_position + (row_index * row_spacing)
 
 
