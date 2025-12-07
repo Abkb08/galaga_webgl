@@ -56,7 +56,6 @@ let enemy_xspeed = 2;
 let enemy_yspeed = 0;
 let enemy_radius = 20;
 
-
 // ----- ENEMY GROUP FORMATION VARIABLES -----
 const form_x = 50;
 const form_y = 100;

@@ -38,8 +38,11 @@ function spawn_enemies() {
 
 // start screen
 function start_screen(){
-    c.fillstyle = "whtite"
-    c.fonts = ""
+    c.fillStyle = "yellow";
+    c.font = "50px Fantasy";
+    c.fillText("in a", 150, 230);
+    c.font = "80px Fantasy";
+    c.fillText("GALAXY", 300, 300);
 }
 // score text draw...
 function draw_text(){
@@ -63,24 +66,6 @@ function game_over(){
     c.fillStyle = "yellow";
     c.font = "30px Arial";
     c.fillText("Game Over",225, 250);
-}
-
-function animate_enemies() {
-    id = requestAnimationFrame(animate_enemies);
-    let now = Date.now()
-    let elapsed = now - then;
-    if (elapsed > FPS_INTERVAL || FRAME_COUNT == 0) {
-        then = now - (elapsed % FPS_INTERVAL);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        for(let e of row_1) {
-            // e.move();
-            e.draw();
-        }
-        ++FRAME_COUNT;
-    }
-    if (FRAME_COUNT == TOTAL_FRAMES) {
-        cancelAnimationFrame(id);
-    }
 }
 
 function start_anime() {
@@ -228,8 +213,8 @@ document.addEventListener('keydown',
 )
 function main() {
     init_gl();
-    p.speak();
-    p.spawn();
+    //p.speak();
+    //p.spawn();
     // e.speak();
     // e.draw();
     // animate_circle();
@@ -241,6 +226,7 @@ function main() {
     // animate_enemies();
     // animate();
     // f.hello();
+    start_screen();
 }   
 
 main();
