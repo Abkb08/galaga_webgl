@@ -64,8 +64,8 @@ let row_spacing = 50;
 let col_index = 0;
 let col_spacing = 50;
 let group_position = 0;
-let num_rows= 2;
-let num_columns = 2;
+let num_rows= 6;
+let num_columns = 1;
 //To edit: group_position + (row_index * row_spacing)
 
 

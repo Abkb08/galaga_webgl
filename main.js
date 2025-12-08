@@ -67,6 +67,10 @@ function game_over(){
     c.fillStyle = "yellow";
     c.font = "30px Arial";
     c.fillText("Game Over",225, 250);
+    c.fillStyle = "yellow";
+    c.font = "20px Arial";
+    c.fillText("Score:",225, 280);
+    c.fillText(player_score, 300, 280);
 }
 
 function animate_enemies() {
