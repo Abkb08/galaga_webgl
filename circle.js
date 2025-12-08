@@ -107,21 +107,6 @@ class player extends circle {
 
 // child - enemy class
 class enemy extends circle {
-    // constructor(centerx, centery, radius, color, xdir, ydir, xspeed, yspeed) {
-    //     // super(centerx, centery, radius, color, xdir, ydir, xspeed, yspeed);
-    //     super(centerx, centery, radius, color, xspeed, yspeed);
-    //     this.row_index = centerx;
-    //     this.col_index = centery;
-    //     this.xdir = xdir;
-    //     this.ydir = ydir;
-    //     this.offsetx = form_x + (this.row_index * row_spacing);
-    //     this.offsety = form_y + (this.col_index * col_spacing);
-    //     this.centerx += this.offsetx;
-    //     this.centery += this.offsety;
-    //     this.bdir = -1
-    //     this.bspeed = -5;
-    //     this.alive = true;
-    // }
     constructor(row_index, col_index, radius, color) {
         super(0,0,radius,color,0,0,0,0);
 
@@ -133,6 +118,7 @@ class enemy extends circle {
 
         this.alive = true;
     }
+
     draw_from_Formation(Formation) {
         this.centerx = Formation.form_x + this.offsetx;
         this.centery = Formation.form_y + this.offsety;
@@ -157,6 +143,7 @@ class Formation {
         this.minOffsetY = 0;
         this.max_offset_x = 0;
         this.maxOffsetY = 0;
+        this.speed = enemy_speed
         // this.min_offset_x = this.enemy_list[0][0].centerx - this.enemy_list[0][0].radius;
         // this.minOffsetY = this.enemy_list[0][0].centery - this.enemy_list[0][0].radius;
     }
@@ -176,8 +163,7 @@ class Formation {
             }
         }
     }
-
-    
+   
     draw_enemies() {
         for(let e of this.enemy_list) {
             if (e.alive == true) {
@@ -192,12 +178,14 @@ class Formation {
         let left = this.form_x + this.min_offset_x - enemy_radius;
         let right = this.form_x + this.max_offset_x + enemy_radius;
 
+        // Code to make formation bounce on edge hit
         if(left <= 0 || right >= width) {
             this.xdir = -this.xdir;
             this.form_y += 30;
+            this.speed += 0.4;
         }
 
-        this.form_x += this.xdir * enemy_speed;
+        this.form_x += this.xdir * this.speed;
         if(this.left == -Infinity || this.right == Infinity) {
             console.log("resetting...")
             setTimeout(() => {
@@ -227,6 +215,8 @@ class Formation {
     reset() {
         this.form_x = form_x;
         this.form_y = form_y;
+        this.xdir = 1;
+        this.speed = enemy_speed;
         this.enemy_list.forEach((enemy, index) => {
             enemy.alive = true;
         });
