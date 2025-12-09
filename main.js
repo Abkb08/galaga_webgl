@@ -64,8 +64,11 @@ function start_screen(){
     };
 }
 
-function draw_background(){
-    c.drawImage(BACK_SCREEN, 15, 15, 900, 600);  
+function draw_background(opacity = .08){
+    b.save();                     // save current context state
+    b.globalAlpha = opacity;      // set transparency
+    b.drawImage(BACK_SCREEN, 15, 15, 900, 600); 
+    b.restore(); 
 }
 // score text draw...
 function draw_text(){
@@ -122,7 +125,7 @@ function animate(){
     // CLEARING BOTH CANVASES
     gl.clear(gl.COLOR_BUFFER_BIT);
     c.clearRect(0,0, canvas.width, canvas.height);
-   // draw_background();
+    draw_background();
 
     // DRAWING ENEMIES, PLAYER, PROJECTILES
     f.move();
