@@ -238,7 +238,7 @@ class Formation {
         let right = this.form_x + this.max_offset_x + enemy_radius;
         
         // Code to make formation bounce on edge hit
-        if(left <= 0 || right >= width) {
+        if(left <= 20 || right >= width) {
             this.xdir = -this.xdir;
             this.form_y += 30;
             this.speed += 0.4;
