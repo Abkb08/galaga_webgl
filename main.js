@@ -21,6 +21,13 @@ let f;
 let enemy_map = [];
 let step_cooldown = false;
 
+
+// to track left and right keypress better
+const keys = {
+    left: false,
+    right: false
+};
+
 function spawn_enemies() {
     enemy_map = [];
     for(let i = 0; i < num_columns; i++) {
@@ -57,7 +64,7 @@ function remove_proj(){
 function game_over(){
     cancelAnimationFrame(id);
     gl.clear(gl.COLOR_BUFFER_BIT);
-   // c.clearRect(0,0, canvas.width, canvas.height);
+    c.clearRect(0,0, canvas.width, canvas.height);
     // insert text
     c.clearRect(0,0,p_canvas.width, p_canvas.height);
     c.fillStyle = "yellow";
@@ -96,18 +103,21 @@ function animate(){
     c.clearRect(0,0, canvas.width, canvas.height);
 
     // DRAWING ENEMIES, PLAYER, PROJECTILES
-    // f.draw_enemies();
-    // p.draw();
-    // f.move();
-    // f.draw_enemies();
-    // draw_text();
-    //trying a different order
     f.move();
-    // f.draw_enemies();
-    // p.draw()
-    // draw_text();
+    f.shoot();
+    f.draw_enemies();
+    if (keys.left)
+        p.move_x(-4);
+    if (keys.right)
+        p.move_x(4);
+    p.draw();
+    p.draw_sprite(c)
+    draw_text();
     
     projectiles.forEach(projectile => {
+        projectile.update();
+    })  
+    enemy_projectiles.forEach(projectile => {
         projectile.update();
     })  
     // ENEMIES SHOOTING PROJECTILES
@@ -145,6 +155,8 @@ function animate(){
                 }, 3000); // 3000 milliseconds = 3 seconds
             }
             enemies_killed++;
+            f.step_delay = Math.max(200, 600 - (enemies_killed % (num_rows * num_columns)) * 10);
+            f.shot_delay = Math.max(200, 900 - (enemies_killed % (num_rows * num_columns)) * 12);
         }  
         })
     })  // end of collision detection b/w enemy and projectile
@@ -177,43 +189,34 @@ function animate(){
         }  
     })  // end of collision b/w enemy and player
 
-    // if(!f.check_alive()) {
-    //     console.log("Enemies are all dead");
-    //     // f.reset();
-    // }
-
-    f.draw_enemies();
-    p.draw_sprite(c);
-   /* p.on_image_load(
-        function(){ p.draw(); }
-    )*/
-    draw_text();
-
+    // Lives check for when enemy shooting works
+    if (p.lives <= 0) {
+        stop_anime();
+        game_over;
+    }
 }// end of animate()
 
 // PLAYER MOVEMENT - left and right
 // key events: keydown, keyup, keypress
+document.addEventListener("keydown", e => {
+    if(e.key === "a") 
+        keys.left = true;
+    if(e.key === "d")
+        keys.right = true;
+});
+document.addEventListener("keyup", e =>{
+    if(e.key === "a")
+        keys.left = false;
+    if(e.key === "d")
+        keys.right = false;
+    
+});
+
 document.addEventListener('keydown',
     function(event) {
         switch (event.key) {
-            case 'a' :
-                p.move_x(-7);
-                // gl.clear(gl.COLOR_BUFFER_BIT);
-                // p.draw();
-                break;
-            case 'd' :
-                p.move_x(7);
-                // gl.clear(gl.COLOR_BUFFER_BIT);
-                // p.draw();
-                break;
-            // projectiles shooting up
             case 'w':
                 console.log("Bullet shot!");
-                /* trying to add some delay...
-                setTimeout(()=>{
-                    console.log("Waited 3 seconds!");}
-                    , 3000);
-                */
                 const move = {
                     x: 0, y: -5
                 }
@@ -233,15 +236,15 @@ document.addEventListener('keydown',
                 const move2 = {
                     x: 0, y: 5
                 }
-                enemy_map.forEach((enemy, index)=>{
-                enemy_projectiles.push(new Projectile(
-                    enemy.getx(),
-                    enemy.gety(),
-                    5, 
-                    'red',
-                    move2
-                ))
-            })    
+                // enemy_map.forEach((enemy, index)=>{
+                // enemy_projectiles.push(new Projectile(
+                //     enemy.getx(),
+                //     enemy.gety(),
+                //     5, 
+                //     'red',
+                //     move2
+                // ))
+            // })    
                 break;
         }
     }

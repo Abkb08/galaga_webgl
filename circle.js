@@ -109,7 +109,7 @@ class player extends circle {
         super(centerx,centery,radius,color,
             xdir,ydir, xspeed, yspeed);
         // ----- SET VARIABLES -----
-       // console.log("img parameter in constructor =", img);
+        this.lives = 3;
         this.ydir = 0;
         this.yspeed = 0;
 
@@ -136,14 +136,14 @@ class player extends circle {
 }
 // child - enemy class
 class enemy extends circle {
-    constructor(row_index, col_index, radius, color) {
+    constructor(col_index, row_index, radius, color) {
         super(0,0,radius,color,0,0,0,0);
 
         this.row_index = row_index;
         this.col_index = col_index;
 
-        this.offsetx = this.row_index * row_spacing;
-        this.offsety = this.col_index * col_spacing;
+        this.offsetx = this.col_index * col_spacing;
+        this.offsety = this.row_index * row_spacing;
 
         this.alive = true;
     }
@@ -173,6 +173,9 @@ class Formation {
         this.max_offset_x = 0;
         this.max_offset_y = 0;
         this.speed = enemy_speed;
+
+        this.last_shot = 0;
+        this.shot_delay = 900;
 
         // For stepping rather than smooth movement
         this.last_step = Date.now()
@@ -228,6 +231,45 @@ class Formation {
         // this.step_delay = max(200, 600 - enemies_killed  * 10)
     }
 
+    shoot() {
+        let now = Date.now();
+        if(now - this.last_shot < this.shot_delay)
+            return;
+        this.last_shot = now;
+
+        //random number with max: Math.random() * max
+        let random_column = Math.floor(Math.random() * num_columns);
+
+        let shooter = this.find_lowest_enemy(random_column);
+
+        if (!shooter) return;
+
+        enemy_projectiles.push(
+            new Projectile(
+                shooter.centerx,
+                shooter.centery,
+                5,
+                'red',
+                { x:0, y:5}
+            )
+        );
+    }
+
+    find_lowest_enemy(col) {
+        let lowest = null;
+        for(let e of this.enemy_list) {
+            if(!e.alive) 
+                continue;
+            if(e.col_index !== col)
+                continue;
+
+            if(lowest === null || e.row_index > lowest.row_index) {
+                lowest = e;
+            }
+        }
+        return lowest;
+    }
+
     hello() {
         console.log("Hello from Formation!");
         console.log(this.min_offset_x + "," + this.max_offset_x);
@@ -253,7 +295,7 @@ class Formation {
         this.enemy_list.forEach((enemy, index) => {
             enemy.alive = true;
         });
-    }
+    }   
 }
 
 // projectile class
