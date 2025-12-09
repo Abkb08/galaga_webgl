@@ -3,37 +3,23 @@
 // variables for player x and y, which also determine bullet x and y
 let cooldown = false;
 const p = new player(playerx,playery,40,magenta_color,-1,-1,1,1,1);
-// ----- OLD CIRCLE ENEMY CLASS -----
-// for(let i = 100; i <= 500; i += 100){
-//     enemy_map.push(new enemy(i, 200, 25, orange_color, enemy_xdir, 
-//                         enemy_ydir, enemy_xspeed, enemy_yspeed));
-// }
-
-
-// ----- OLD WAY OF SPAWNING ENEMIES (WORKING) -- MOVED TO SPAWN_ENEMIES FUNCTION -----
-// for(let i = 0; i < num_columns; i++) {
-//     for(let j=0; j<num_rows; j++) {
-//         enemy_map.push(new enemy(i, j, enemy_radius, orange_color));
-//     }
-// }
-// let f = new Formation(enemy_map, 50, 100, 1);
-
-// let e = new enemy(300,200,20,orange_color,-1,-1,1,1,1);
 
 const projectiles = [];
 const enemy_projectiles = [];
 //initialized Formation
 let f;
 let enemy_map = [];
+let step_cooldown = false;
 
 function spawn_enemies() {
+    enemy_map = [];
     for(let i = 0; i < num_columns; i++) {
         for(let j=0; j<num_rows; j++) {
             enemy_map.push(new enemy(i, j, enemy_radius, orange_color));
         }
     }
     f = new Formation(enemy_map, form_x, form_y, 1);
-    f.draw_enemies();
+    // f.draw_enemies();
 }
 //let string = ("Score: ", player_score);
 
@@ -73,27 +59,9 @@ function game_over(){
     c.fillText(player_score, 300, 280);
 }
 
-function animate_enemies() {
-    id = requestAnimationFrame(animate_enemies);
-    let now = Date.now()
-    let elapsed = now - then;
-    if (elapsed > FPS_INTERVAL || FRAME_COUNT == 0) {
-        then = now - (elapsed % FPS_INTERVAL);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        for(let e of enemy_map) {
-            // e.move();
-            e.draw();
-        }
-        ++FRAME_COUNT;
-    }
-    if (FRAME_COUNT == TOTAL_FRAMES) {
-        cancelAnimationFrame(id);
-    }
-}
-
 function start_anime() {
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    c.clearRect(0,0, canvas.width, canvas.height);
+    // gl.clear(gl.COLOR_BUFFER_BIT);
+    // c.clearRect(0,0, canvas.width, canvas.height);
     spawn_enemies();
     animate();
 }
@@ -112,11 +80,16 @@ function animate(){
     c.clearRect(0,0, canvas.width, canvas.height);
 
     // DRAWING ENEMIES, PLAYER, PROJECTILES
-    f.draw_enemies();
-    p.draw();
+    // f.draw_enemies();
+    // p.draw();
+    // f.move();
+    // f.draw_enemies();
+    // draw_text();
+    //trying a different order
     f.move();
-    f.draw_enemies();
-    draw_text();
+    // f.draw_enemies();
+    // p.draw()
+    // draw_text();
     
     projectiles.forEach(projectile => {
         projectile.update();
@@ -137,13 +110,14 @@ function animate(){
     // COLLISION DETECTION! B/W ENEMY AND PROJECTILE
     enemy_map.forEach((enemy, index)=>{
         projectiles.forEach((projectile, proj_index) => {
+        if(!enemy.alive) return;
 
         // calculate distance between enemy and projectile using centers
         calc1 = Math.pow((enemy.getr() - projectile.getr()),2);
         calc2 = Math.pow((enemy.getx()-projectile.getx()),2) + Math.pow((enemy.gety()-projectile.gety()),2);
         calc3 = Math.pow((enemy.getr() + projectile.getr()),2);
 
-        if (calc1 <= calc2 && calc2 <= calc3 && enemy.alive == true) {
+        if (calc1 <= calc2 && calc2 <= calc3) {
             console.log("Enemy Hit!");
             enemy.alive = false;
             projectiles.splice(proj_index, 1);          // pop current index from projectiles
@@ -154,7 +128,7 @@ function animate(){
                     f.reset();
                 }, 3000); // 3000 milliseconds = 3 seconds
             }
-
+            enemies_killed++;
         }  
         })
     })  // end of collision detection b/w enemy and projectile
@@ -174,10 +148,13 @@ function animate(){
 
             game_over();
         } */
+        if (!enemy.alive)
+            return;
+
         calc1 = Math.pow((enemy.getr() - p.getr()),2);
         calc2 = Math.pow((enemy.getx()-p.getx()),2) + Math.pow((enemy.gety()-p.gety()),2);
         calc3 = Math.pow((enemy.getr() + p.getr()),2);
-        if (calc1 <= calc2 && calc2 <= calc3 && enemy.alive == true) {
+        if (calc1 <= calc2 && calc2 <= calc3) {
             console.log("Enemy&Player collide!");
             stop_anime();
             game_over();
@@ -189,6 +166,10 @@ function animate(){
     //     // f.reset();
     // }
 
+    f.draw_enemies();
+    p.draw()
+    draw_text();
+
 }// end of animate()
 
 // PLAYER MOVEMENT - left and right
@@ -198,13 +179,13 @@ document.addEventListener('keydown',
         switch (event.key) {
             case 'a' :
                 p.move_x(-7);
-                gl.clear(gl.COLOR_BUFFER_BIT);
-                p.draw();
+                // gl.clear(gl.COLOR_BUFFER_BIT);
+                // p.draw();
                 break;
             case 'd' :
                 p.move_x(7);
-                gl.clear(gl.COLOR_BUFFER_BIT);
-                p.draw();
+                // gl.clear(gl.COLOR_BUFFER_BIT);
+                // p.draw();
                 break;
             // projectiles shooting up
             case 'w':
@@ -258,7 +239,6 @@ function main() {
     //     e.draw();
     // }
     // f.draw_enemies();
-    // animate_enemies();
     // animate();
     // f.hello();
     start_screen();

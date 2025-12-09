@@ -64,14 +64,15 @@ let row_spacing = 50;
 let col_index = 0;
 let col_spacing = 50;
 let group_position = 0;
-let num_rows= 4;
-let num_columns = 3;
+let num_rows= 5;
+let num_columns = 11;
 //To edit: group_position + (row_index * row_spacing)
 
 
 // ----- PLAYER COORDINATE -----
 let playerx = 300;
 let playery = 500;
+let enemies_killed = 0;
 
 
 function create_gl_program() {
