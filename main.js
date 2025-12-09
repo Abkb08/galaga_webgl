@@ -71,12 +71,14 @@ function draw_background(){
 function draw_text(){
     c.fillStyle = "purple";
     c.font = "20px Arial";
-    c.fillText("SCORE: ", 400, 50);
-    c.fillText(player_score, 500, 50);
+    c.fillText("SCORE: ", 500, 50);
+    c.fillText(player_score, 600, 50);
+    c.fillText("LIVES: ", 350, 50);
+    c.fillText(p.lives, 450, 50);
 }
 
 // 
-function remove_proj(){
+function remove_proj(p, list){
 
 }
 
@@ -209,10 +211,29 @@ function animate(){
         }  
     })  // end of collision b/w enemy and player
 
+    // COLLISION DETECTION! B/W PLAYER AND PROJECTILE (functional)
+    // player loses 3 lives / game over
+    enemy_projectiles.forEach((projectile, index) => {
+        calc1 = Math.pow((projectile.getr() - p.getr()),2);
+        calc2 = Math.pow(projectile.getx() - p.getx(), 2) + Math.pow(projectile.gety() - p.gety(), 2);
+        calc3 = Math.pow((projectile.getr() + p.getr()),2);
+
+        if(calc1 <= calc2 && calc2 <= calc3) {
+            console.log("Player hit!");
+            enemy_projectiles.splice(index, 1);             // pop current index from enemy_map (enemies)
+            console.log("player lives: ", p.lives);
+            p.lives -= 1;
+            stop_anime();
+            setTimeout(() => {
+                resume();
+            }, 2000);
+        }
+    })  // end of collision b/w player nad projectile
+
     // Lives check for when enemy shooting works
     if (p.lives <= 0) {
         stop_anime();
-        game_over;
+        game_over();
     }
 }// end of animate()
 
