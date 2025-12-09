@@ -89,13 +89,17 @@ class circle {
 // child - player class
 class player extends circle {
     constructor(centerx,centery,radius,color,
-        xdir, ydir, xspeed, yspeed){
+        xdir, ydir, xspeed, yspeed, img){
         super(centerx,centery,radius,color,
             xdir,xspeed);
         // ----- SET VARIABLES -----
 
         this.ydir = 0;
         this.yspeed = 0;
+
+        // image rendering stuff
+        this.img = new Image();
+        this.img.src = img;
     }
     speak(){
         console.log("Hello from player!")
