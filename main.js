@@ -2,7 +2,17 @@
 
 // variables for player x and y, which also determine bullet x and y
 let cooldown = false;
-const p = new player(playerx,playery,30,magenta_color,-1,-1,1,1,1, PLAYER_IMG);
+
+// player image stuff
+const PLAYER_IMG = new Image();
+PLAYER_IMG.src = "Sprite_map.PNG";
+
+PLAYER_IMG.onload = () => {
+    console.log("Image fully loaded:", PLAYER_IMG.width, PLAYER_IMG.height);
+
+    // Create player after image loads
+    p = new player(playerx, playery, 35, magenta_color, -1, 1, 1, 1, PLAYER_IMG);
+};
 
 const projectiles = [];
 const enemy_projectiles = [];
@@ -173,7 +183,10 @@ function animate(){
     // }
 
     f.draw_enemies();
-    p.draw()
+    p.draw_sprite(c);
+   /* p.on_image_load(
+        function(){ p.draw(); }
+    )*/
     draw_text();
 
 }// end of animate()
@@ -206,7 +219,7 @@ document.addEventListener('keydown',
                 }
                 if (cooldown == false){
                     projectiles.push(new Projectile(
-                        playerx,
+                        playerx+10,
                         playery,
                         5, 
                         'red',
@@ -248,6 +261,7 @@ function main() {
     // animate();
     // f.hello();
     start_screen();
+    //test_img();
 }   
 
 main();

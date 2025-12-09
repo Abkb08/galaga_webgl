@@ -11,12 +11,21 @@ class circle {
         this.ydir = ydir;
         this.xspeed = xspeed;
         this.yspeed = yspeed;
+
+        // this.img = new Image();
+        // this.img.src = img;
+        // this.loaded = false;
+        // this.img.onload = () => { this.loaded = true; };
+
+
         this.unitCircle=[];
         for (let d=0; d<360; d+=1) {
             let r = d * Math.PI / 180;
             this.unitCircle.push(Math.cos(r), Math.sin(r));
         }
     }
+    // for image
+
     draw() {
         let pts = new Float32Array(360 * 3); // (x,y,1)
         for (let i=0; i<360; i++) {
@@ -36,6 +45,13 @@ class circle {
 
         //one draw cell
         gl.drawArrays(gl.POINTS, 0, 360);
+
+    //     if(!this.loaded) return; // skip if image not ready
+    //     // sprite drawing
+    //     c.drawImage(this.img,
+    //                 23, 43, 50, 50,        // source
+    //                 playerx, playery, 50, 50);               // destination
+                    
     }
 
     move() {
@@ -91,24 +107,33 @@ class player extends circle {
     constructor(centerx,centery,radius,color,
         xdir, ydir, xspeed, yspeed, img){
         super(centerx,centery,radius,color,
-            xdir,xspeed);
+            xdir,ydir, xspeed, yspeed);
         // ----- SET VARIABLES -----
-
+       // console.log("img parameter in constructor =", img);
         this.ydir = 0;
         this.yspeed = 0;
 
-        // image rendering stuff
-        this.img = new Image();
-        this.img.src = img;
+        this.img = img;
+        this.loaded = this.img.complete && this.img.naturalWidth > 0;
+        
     }
-    speak(){
+    draw_hitbox(){
+        super.draw();
+    }
+    draw_sprite(c){
         console.log("Hello from player!")
+        // sprite drawing
+        const destWidth = 75;
+        const destHeight = 150;
+        const drawX = this.centerx - destWidth / 2.85;
+        const drawY = this.centery - destHeight / 3.5;
+        c.drawImage(this.img,
+                    0, 0, 190, 250,        // source
+                    drawX, drawY, destWidth, destHeight);               // destination
+                    
     }
-    spawn(){
-       p.draw(); 
-    }
-}
 
+}
 // child - enemy class
 class enemy extends circle {
     constructor(row_index, col_index, radius, color) {
