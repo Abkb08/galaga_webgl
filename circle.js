@@ -121,7 +121,7 @@ class player extends circle {
         super.draw();
     }
     draw_sprite(c){
-        console.log("Hello from player!")
+        // console.log("Hello from player!")
         // sprite drawing
         const destWidth = 75;
         const destHeight = 150;
@@ -136,7 +136,7 @@ class player extends circle {
 }
 // child - enemy class
 class enemy extends circle {
-    constructor(col_index, row_index, radius, color) {
+    constructor(col_index, row_index, radius, color, img) {
         super(0,0,radius,color,0,0,0,0);
 
         this.row_index = row_index;
@@ -146,16 +146,35 @@ class enemy extends circle {
         this.offsety = this.row_index * row_spacing;
 
         this.alive = true;
+
+        this.img = img;
+        this.loaded = this.img.complete && this.img.naturalWidth > 0;
     }
 
     draw_from_Formation(Formation) {
         this.centerx = Formation.form_x + this.offsetx;
         this.centery = Formation.form_y + this.offsety;
-        this.draw();
+        // this.draw();
+        this.draw_sprite(c, Formation.anim_frame);
     }
     
     speak() {
         console.log("Hello from enemy!")
+    }
+
+    draw_sprite(c, frame){
+        const destWidth = 30;
+        const destHeight = 35;
+        // console.log("Hello from enemy!")
+        // sprite drawing
+        let sx = 200 + (frame * ENEMY_SPRITE_W); 
+        let sy = 0;
+        let drawX = this.centerx - destWidth / 2.85;
+        let drawY = this.centery - destHeight / 3.5;
+        c.drawImage(this.img,
+                    sx, sy, ENEMY_SPRITE_W, ENEMY_SPRITE_H,        // source
+                    drawX, drawY, destWidth, destHeight);               // destination
+                    
     }
     }
 
@@ -181,6 +200,7 @@ class Formation {
         this.last_step = Date.now()
         this.step_delay = 600        //400 milliseconds
         this.step_distance = 8
+        this.anim_frame = 0;
     }
 
     calcOffset() {
@@ -228,6 +248,7 @@ class Formation {
 
         // New way: stepping
         this.form_x += this.xdir * this.step_distance;
+        this.anim_frame = (this.anim_frame + 1) % 2;
         // this.step_delay = max(200, 600 - enemies_killed  * 10)
     }
 
@@ -269,11 +290,6 @@ class Formation {
         }
         return lowest;
     }
-
-    hello() {
-        console.log("Hello from Formation!");
-        console.log(this.min_offset_x + "," + this.max_offset_x);
-    }
     
     check_alive() {
         let ret = false;
@@ -283,8 +299,6 @@ class Formation {
             }
         }
         return ret;
-        
-
     }
 
     reset() {
