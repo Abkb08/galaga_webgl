@@ -54,15 +54,15 @@ let enemy_xspeed = 2;       //could become private variable, and make a getter/s
 let enemy_ydir = 0;         //Not needed?
 let enemy_xdir = 1;         //could also become private variable
 let enemy_yspeed = 0;       //Not needed?
-let enemy_radius = 20;      //note: move to private variables
+let enemy_radius = 15;      //note: move to private variables
 
 // ----- ENEMY GROUP FORMATION VARIABLES -----
 const form_x = 50;          //could become private variable, except it changes often
-const form_y = 100;         //could become private variable, except it changes often
+const form_y = 90;         //could become private variable, except it changes often
 let row_index = 0;
 let row_spacing = 50;
 let col_index = 0;
-let col_spacing = 50;
+let col_spacing = 55;
 let group_position = 0;
 let num_rows= 5;
 let num_columns = 11;
@@ -72,7 +72,7 @@ let num_columns = 11;
 // ----- PLAYER COORDINATE -----
 let p;
 let playerx = 450;
-let playery = 500;
+let playery = 540;
 let enemies_killed = 0;
 // IMAGE STUFF
 //const PLAYER_IMG = "Sprites.PNG";
