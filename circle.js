@@ -144,12 +144,15 @@ class Formation {
         this.form_y = form_y;       //y position of Formation (updated with movement)
         this.xdir = xdir;
         this.min_offset_x = 0;
-        this.minOffsetY = 0;
+        this.min_offset_y = 0;
         this.max_offset_x = 0;
-        this.maxOffsetY = 0;
-        this.speed = enemy_speed
-        // this.min_offset_x = this.enemy_list[0][0].centerx - this.enemy_list[0][0].radius;
-        // this.minOffsetY = this.enemy_list[0][0].centery - this.enemy_list[0][0].radius;
+        this.max_offset_y = 0;
+        this.speed = enemy_speed;
+
+        // For stepping rather than smooth movement
+        this.last_step = Date.now()
+        this.step_delay = 600        //400 milliseconds
+        this.step_distance = 8
     }
 
     calcOffset() {
@@ -177,26 +180,27 @@ class Formation {
     }
     
     move() {
+        let current_time = Date.now()
+        if(current_time - this.last_step < this.step_delay)
+            return;
+        this.last_step = current_time;
         this.calcOffset();
 
         let left = this.form_x + this.min_offset_x - enemy_radius;
         let right = this.form_x + this.max_offset_x + enemy_radius;
-
+        
         // Code to make formation bounce on edge hit
         if(left <= 0 || right >= width) {
             this.xdir = -this.xdir;
             this.form_y += 30;
             this.speed += 0.4;
         }
+        // Old way: consistent smooth movement
+        // this.form_x += this.xdir * this.speed;
 
-        this.form_x += this.xdir * this.speed;
-        if(this.left == -Infinity || this.right == Infinity) {
-            console.log("resetting...")
-            setTimeout(() => {
-                console.log("resetting now...");
-                this.reset();
-            }, 3000);  //3000 milliseconds = 3 seconds
-        }
+        // New way: stepping
+        this.form_x += this.xdir * this.step_distance;
+        // this.step_delay = max(200, 600 - enemies_killed  * 10)
     }
 
     hello() {
