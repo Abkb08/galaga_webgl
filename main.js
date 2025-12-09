@@ -67,6 +67,10 @@ function game_over(){
     c.fillStyle = "yellow";
     c.font = "30px Arial";
     c.fillText("Game Over",225, 250);
+    c.fillStyle = "yellow";
+    c.font = "20px Arial";
+    c.fillText("Score:",225, 280);
+    c.fillText(player_score, 300, 280);
 }
 
 function animate_enemies() {
@@ -150,6 +154,13 @@ function animate(){
             enemy.alive = false;
             projectiles.splice(proj_index, 1);          // pop current index from projectiles
             player_score = player_score + 50;           // player score increment
+            if(!f.check_alive()) {
+                console.log("Enemies are all dead");
+                setTimeout(() => {
+                    f.reset();
+                }, 3000); // 3000 milliseconds = 3 seconds
+            }
+
         }  
         })
     })  // end of collision detection b/w enemy and projectile
@@ -179,9 +190,10 @@ function animate(){
         }  
     })  // end of collision b/w enemy and player
 
-    if(!f.check_alive()) {
-        console.log("Enemies are all dead");
-    }
+    // if(!f.check_alive()) {
+    //     console.log("Enemies are all dead");
+    //     // f.reset();
+    // }
 
 }// end of animate()
 
