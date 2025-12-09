@@ -1,21 +1,54 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <h1>GALAXY</h1>
+        <!-- <h1>GALAXY</h1> -->
 
         <table>
         <tr valign="top">
-            <td><canvas id="webgl_canvas" width="600" height="600"></canvas></td>
-            <canvas id="p_canvas"  width="600" height="600" style="position:absolute; left:0; top:0;" ></canvas>
-            <td>
-                <button onclick="start_anime()">Start</button>
-                <button onclick="stop_anime()">Stop</button>
-            </td>
+            <td><canvas id="webgl_canvas" width="900" height="600"></canvas></td>
+            <canvas id="p_canvas"  width="900" height="600" style="position:absolute; left:0; top:0;" ></canvas>
+            <!-- <td> -->
+                <!-- <button onclick="start_anime()">Start</button> -->
+                <!-- <button onclick="stop_anime()">Stop</button> -->
+            <!-- </td> -->
+            <button id="Start" onclick="start_anime()"
+                style="position:absolute; top:65vh; right:64vw; z-index:3;
+                padding:12px 24px;
+                color:#0ff;
+                background:#111;
+                border:2px solid #0ff;
+                border-radius:8px;
+                font-size:45px;
+                cursor:pointer;
+                box-shadow:0 0 10px #0ff, inset 0 0 10px #0ff;"> START </button>
+
+            <button id="Pause" onclick="stop_anime()"
+                style="position:absolute; top:15vh; right:25vw; z-index:3;
+                padding:10px 20px;
+                color:#0ff;
+                background:#111;
+                border:2px solid #0ff;
+                border-radius:8px;
+                font-size:12px;
+                cursor:pointer;
+                box-shadow:0 0 10px #0ff, inset 0 0 10px #0ff;"> Pause </button>
+
+            <button id="Resume" onclick="resume()"
+                style="position:absolute; top:15vh; right:30vw; z-index:3;
+                padding:10px 20px;
+                color:#0ff;
+                background:#111;
+                border:2px solid #0ff;
+                border-radius:8px;
+                font-size:12px;
+                cursor:pointer;
+                box-shadow:0 0 10px #0ff, inset 0 0 10px #0ff;"> Resume </button>
         </tr>
         </table>        
         <script type="text/javascript" src="final.js"></script>
         <script type="text/javascript" src="circle.js"></script>
         <script type="text/javascript" src="main.js"></script>"
-        <!-- <script type="module" src="main.js"></script> -->
+   
     </body>
+    
 </html>
