@@ -5,9 +5,19 @@
 
         <table>
         <tr valign="top">
-            <td><canvas id="webgl_canvas" width="900" height="600"></canvas></td>
-            <canvas id="p_canvas"  width="900" height="600" style="position:absolute; left:0; top:0;" ></canvas>
-            <!-- <td> -->
+            <div style="position: relative; width: 900px; height: 600px;">
+
+            <!-- Overlay 2D canvas -->
+            <canvas id="p_canvas" width="900" height="600" style="position:absolute; left:0; top:0; z-index:2;"></canvas>
+
+             <!-- WebGL canvas -->
+             <canvas id="webgl_canvas" width="900" height="600" style="position:absolute; left:0; top:0; z-index:1"></canvas>
+
+               <!-- Background 2D canvas -->
+            <canvas id="b_canvas" width="900" height="600" style="position:absolute; left:0; top:0; z-index:0;"></canvas>
+
+            </div>
+                      <!-- <td> -->
                 <!-- <button onclick="start_anime()">Start</button> -->
                 <!-- <button onclick="stop_anime()">Stop</button> -->
             <!-- </td> -->

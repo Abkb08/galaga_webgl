@@ -1,7 +1,11 @@
 "use strict";
 
-// 2d canvas
-const canv = document.querySelector('canvas');
+// background 2d canvas
+const canvs= document.querySelector('#b_canvas');
+const b = canvs.getContext('2d');  
+
+// main 2d canvas
+const canv = document.querySelector('#p_canvas');
 const c = canv.getContext('2d');          // context stored in c
 
 // vertex shader code (vsc)
@@ -99,7 +103,7 @@ function init_gl() {
     create_gl_program();
     gl.useProgram(gl_prog);
     
-    gl.clearColor(0,0,0,1);
+    gl.clearColor(0,0,0,0);
     gl.clear(gl.COLOR_BUFFER_BIT);    
 
     gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
