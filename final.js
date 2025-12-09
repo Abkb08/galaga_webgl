@@ -70,12 +70,12 @@ let num_columns = 11;
 
 
 // ----- PLAYER COORDINATE -----
+let p;
 let playerx = 450;
 let playery = 500;
 let enemies_killed = 0;
-
 // IMAGE STUFF
-const PLAYER_IMG = "Sprites.PNG";
+//const PLAYER_IMG = "Sprites.PNG";
 
 
 function create_gl_program() {
