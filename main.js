@@ -12,6 +12,18 @@ PLAYER_IMG.onload = () => {
 
     // Create player after image loads
     p = new player(playerx, playery, 35, magenta_color, -1, 1, 1, 1, PLAYER_IMG);
+
+    spawn_enemies();
+};
+// start screen background
+const START_SCREEN = new Image();
+START_SCREEN.src = "StartScreen.jpeg";
+
+//  background during gameplay
+const BACK_SCREEN = new Image();
+BACK_SCREEN.src = "BackScreen.PNG";
+BACK_SCREEN.onload = () => {
+    // placeholder
 };
 
 const projectiles = [];
@@ -27,30 +39,37 @@ const keys = {
     left: false,
     right: false
 };
+//let string = ("Score: ", player_score);
 
 function spawn_enemies() {
     enemy_map = [];
     for(let i = 0; i < num_columns; i++) {
         for(let j=0; j<num_rows; j++) {
-            enemy_map.push(new enemy(i, j, enemy_radius, orange_color));
+            enemy_map.push(new enemy(i, j, enemy_radius, orange_color, PLAYER_IMG));
         }
     }
     f = new Formation(enemy_map, form_x, form_y, 1);
     // f.draw_enemies();
 }
-//let string = ("Score: ", player_score);
-
 // start screen
 function start_screen(){
-    c.fillStyle = "yellow";
+    //c.fillStyle = "yellow";
     //c.font = "50px Fantasy";
     //c.fillText("in a", 150, 230);
-    c.font = "100px Lucida Caveat";
-    c.fillText("GALAXY", 250, 300);
+   // c.font = "100px Lucida Caveat";
+   // c.fillText("GALAXY", 250, 300);
+   
+    START_SCREEN.onload = () => {
+    c.drawImage(START_SCREEN, 15, 15, 900, 600);  
+    };
+}
+
+function draw_background(){
+    c.drawImage(BACK_SCREEN, 15, 15, 900, 600);  
 }
 // score text draw...
 function draw_text(){
-    c.fillStyle = "yellow";
+    c.fillStyle = "purple";
     c.font = "20px Arial";
     c.fillText("SCORE: ", 500, 50);
     c.fillText(player_score, 600, 50);
@@ -81,7 +100,7 @@ function game_over(){
 function start_anime() {
     // gl.clear(gl.COLOR_BUFFER_BIT);
     // c.clearRect(0,0, canvas.width, canvas.height);
-    spawn_enemies();
+//spawn_enemies();
     animate();
 }
 
@@ -103,6 +122,7 @@ function animate(){
     // CLEARING BOTH CANVASES
     gl.clear(gl.COLOR_BUFFER_BIT);
     c.clearRect(0,0, canvas.width, canvas.height);
+   // draw_background();
 
     // DRAWING ENEMIES, PLAYER, PROJECTILES
     f.move();
@@ -112,7 +132,7 @@ function animate(){
         p.move_x(-4);
     if (keys.right)
         p.move_x(4);
-    p.draw();
+    //p.draw();
     p.draw_sprite(c)
     draw_text();
     
