@@ -2,7 +2,7 @@
 
 // variables for player x and y, which also determine bullet x and y
 let cooldown = false;
-const p = new player(playerx,playery,40,magenta_color,-1,-1,1,1,1);
+const p = new player(playerx,playery,30,magenta_color,-1,-1,1,1,1, PLAYER_IMG);
 
 const projectiles = [];
 const enemy_projectiles = [];
@@ -26,17 +26,17 @@ function spawn_enemies() {
 // start screen
 function start_screen(){
     c.fillStyle = "yellow";
-    c.font = "50px Fantasy";
-    c.fillText("in a", 150, 230);
-    c.font = "80px Fantasy";
-    c.fillText("GALAXY", 300, 300);
+    //c.font = "50px Fantasy";
+    //c.fillText("in a", 150, 230);
+    c.font = "100px Lucida Caveat";
+    c.fillText("GALAXY", 250, 300);
 }
 // score text draw...
 function draw_text(){
     c.fillStyle = "yellow";
-    c.font = "15px Arial";
-    c.fillText("Score: ", 500, 550);
-    c.fillText(player_score, 550, 550);
+    c.font = "20px Arial";
+    c.fillText("SCORE: ", 400, 50);
+    c.fillText(player_score, 500, 50);
 }
 
 // 
@@ -71,7 +71,13 @@ function stop_anime() {
     cancelAnimationFrame(id);
 }
 
+function resume(){
+    id = requestAnimationFrame(animate);
+}
+
 function animate(){
+    // button to be removed - start button
+    document.querySelector("#Start").style.display = "none";
     // console.log("Animating...");
     id = requestAnimationFrame(animate);
 
