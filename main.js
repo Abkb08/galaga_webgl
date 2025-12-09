@@ -15,6 +15,13 @@ PLAYER_IMG.onload = () => {
 
     spawn_enemies();
 };
+
+const ENEMY_IMG = new Image();
+ENEMY_IMG.src = "Sprite_map.PNG";
+
+const ENEMY_SPRITE_W = 155;
+const ENEMY_SPRITE_H = 210;
+
 // start screen background
 const START_SCREEN = new Image();
 START_SCREEN.src = "StartScreen.jpeg";
@@ -45,7 +52,7 @@ function spawn_enemies() {
     enemy_map = [];
     for(let i = 0; i < num_columns; i++) {
         for(let j=0; j<num_rows; j++) {
-            enemy_map.push(new enemy(i, j, enemy_radius, orange_color, PLAYER_IMG));
+            enemy_map.push(new enemy(i, j, enemy_radius, orange_color, ENEMY_IMG));
         }
     }
     f = new Formation(enemy_map, form_x, form_y, 1);
@@ -77,11 +84,6 @@ function draw_text(){
     c.fillText(p.lives, 450, 50);
 }
 
-// 
-function remove_proj(p, list){
-
-}
-
 function game_over(){
     cancelAnimationFrame(id);
     gl.clear(gl.COLOR_BUFFER_BIT);
@@ -98,9 +100,7 @@ function game_over(){
 }
 
 function start_anime() {
-    // gl.clear(gl.COLOR_BUFFER_BIT);
-    // c.clearRect(0,0, canvas.width, canvas.height);
-//spawn_enemies();
+    document.querySelector("#Start").style.display = "none";
     animate();
 }
 
@@ -115,7 +115,6 @@ function resume(){
 
 function animate(){
     // button to be removed - start button
-    document.querySelector("#Start").style.display = "none";
     // console.log("Animating...");
     id = requestAnimationFrame(animate);
 
